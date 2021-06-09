@@ -5,11 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestionPanelController : MonoBehaviour
+public class QuestionPanelController : BaseGUIController
 {
     [Header("Internal References")]
-    [SerializeField] private GameObject _mainPanel;
-
     [SerializeField] private TextMeshProUGUI _questionText;
     [SerializeField] private Button[] _answerButtons;
 
@@ -22,37 +20,12 @@ public class QuestionPanelController : MonoBehaviour
         AssignOnClickFunctionsToAnswerButtons();
     }
 
-    public void OnNewQuestion(EventMessage questionMessage)
+
+    public void AssignNewQuestion(QuizQuestion question)
     {
-        TogglePanel(true);
-        SetupQuestion(((QuizQuestionMessage)questionMessage).Question);
+        SetupQuestion(question);
     }
 
-    public void OnQuizFinished()
-    {
-        StartCoroutine(DestroyCoroutine());
-        
-        //TogglePanel(false);
-    }
-
-    IEnumerator DestroyCoroutine()
-    {
-        Destroy(this.GetComponent<EventListener>());
-        yield return new WaitForEndOfFrame();
-        Destroy(this.gameObject);
-    }
-
-    public void TogglePanel(bool shouldDisplay)
-    {
-        if (shouldDisplay)
-        {
-            _mainPanel.SetActive(true);
-        }
-        else
-        {
-            _mainPanel.SetActive(false);
-        }
-    }
 
     /// <summary>
     /// Sets up question text and answer buttons

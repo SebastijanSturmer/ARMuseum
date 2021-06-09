@@ -11,27 +11,26 @@ public class QuizManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int _numberOfQuestions;
 
-    [Header("Internal References")]
-    [SerializeField] private QuestionPanelController _questionPanelController;
 
     [Header("References")]
     [SerializeField] private AssetReference _jsonQuestions;
-    [SerializeField] private Transform _questionPanelParent;
-    [SerializeField] private GameObject _quizPanelPrefab;
 
     [Header("Events")]
+    [SerializeField] private ScriptableEvent _quizStarted;
     [SerializeField] private ScriptableEvent _quizFinished;
+    [SerializeField] private ScriptableEvent _newQuizQuestion;
 
     private List<QuizQuestion> _selectedQuestions;
-    private int _currentQuestionIndex = 0;
+    private int _currentQuestionIndex = -1;
     private int _numberOfCorrectAnswers = 0;
 
     private bool _loadingQuestionsCompleted;
 
-    private void Start()
+
+
+    public void OnNewQuizRequest()
     {
-        //GenerateQuestion();
-        StartCoroutine(NewQuestionsCoroutine());
+        StartCoroutine(StartQuiz());
     }
 
     void GenerateQuestion()
@@ -82,14 +81,13 @@ public class QuizManager : MonoBehaviour
 
     private void QuizFinished()
     {
-        Destroy(_questionPanelController.gameObject);
         _quizFinished.RaiseEvent(new QuizStatsMessage(_numberOfQuestions, _numberOfCorrectAnswers));
     }
 
     private void GetNewQuestion()
     {
         _currentQuestionIndex++;
-        _questionPanelController.OnNewQuestion(new QuizQuestionMessage(_selectedQuestions[_currentQuestionIndex]));
+        _newQuizQuestion.RaiseEvent(new QuizQuestionMessage(_selectedQuestions[_currentQuestionIndex]));
     }
 
     /// <summary>
@@ -100,7 +98,7 @@ public class QuizManager : MonoBehaviour
         _loadingQuestionsCompleted = false;
 
         _selectedQuestions = new List<QuizQuestion>();
-        _currentQuestionIndex = 0;
+        _currentQuestionIndex = -1;
         _numberOfCorrectAnswers = 0;
 
         if (!_jsonQuestions.RuntimeKeyIsValid())
@@ -151,16 +149,15 @@ public class QuizManager : MonoBehaviour
             _loadingQuestionsCompleted = true;
         };
 
-
-
-
     }
 
-    private IEnumerator NewQuestionsCoroutine()
+    private IEnumerator StartQuiz()
     {
         GetQuestionsFromJSON();
         yield return new WaitUntil(() => _loadingQuestionsCompleted == true);
-        _questionPanelController = Instantiate(_quizPanelPrefab, _questionPanelParent).GetComponent<QuestionPanelController>();
+
+        _quizStarted.RaiseEvent();
+
         GetNewQuestion();
     }
 }
