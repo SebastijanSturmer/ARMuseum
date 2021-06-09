@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuUIManager : MonoBehaviour
 {
     [Header("Internal References")]
     [SerializeField] private LanguageSelectorController _languageSelectorController;
+    [SerializeField] private Button _arButton;
 
     [Header("Events")]
     [SerializeField] private ScriptableEvent _loadQuiz;
@@ -16,7 +18,7 @@ public class MainMenuUIManager : MonoBehaviour
 
     void Start()
     {
-        
+        CheckPlatformAndDisableARIfNecessary();
     }
 
     /// <summary>
@@ -39,5 +41,18 @@ public class MainMenuUIManager : MonoBehaviour
     public void OnQuitButton()
     {
         Application.Quit();
+    }
+
+
+    private void CheckPlatformAndDisableARIfNecessary()
+    {
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            _arButton.interactable = true;
+        }
+        else
+        {
+            _arButton.interactable = false;
+        }
     }
 }

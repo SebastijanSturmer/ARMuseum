@@ -845,7 +845,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 799507427}
   m_OnClick:
     m_PersistentCalls:
@@ -1306,6 +1306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _languageSelectorController: {fileID: 0}
+  _arButton: {fileID: 799507426}
   _loadQuiz: {fileID: 11400000, guid: 40f8f074495645447a004e7f3d45c6b7, type: 2}
   _loadAR: {fileID: 11400000, guid: bd296bd2837955741b03fd95a184dd9c, type: 2}
   _changeLanguage: {fileID: 0}

@@ -12,4 +12,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Quiz.unity
     guid: e17b04a70032ce546ace75c5fbdb929d
   m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: e9769d94d03f1f64290358138b29aa74, type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: 6b547c6e689efcc43bc6179428915100, type: 2}
