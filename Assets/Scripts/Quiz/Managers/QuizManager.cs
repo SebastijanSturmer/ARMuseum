@@ -111,7 +111,7 @@ public class QuizManager : MonoBehaviour
         _jsonQuestions.LoadAssetAsync<TextAsset>().Completed += handle =>
         {
             ListOfQuizQuestions questions = JsonUtility.FromJson<ListOfQuizQuestions>(handle.Result.text);
-            Addressables.Release(handle);
+            
 
             int tryAttempts = 0;
             while (true)
@@ -147,6 +147,8 @@ public class QuizManager : MonoBehaviour
             }
 
             _loadingQuestionsCompleted = true;
+
+            Addressables.Release(handle);
         };
 
     }

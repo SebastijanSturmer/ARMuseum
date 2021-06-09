@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
+  m_Name: ReferenceImageLibrary
+  m_EditorClassIdentifier: 
+  m_GuidLow: 4743506918069306838
+  m_GuidHigh: 2873406764633302700
+  m_Images:
+  - m_SerializedGuid:
+      m_GuidLow: 5377325242710978938
+      m_GuidHigh: 5823506495627771063
+    m_SerializedTextureGuid:
+      m_GuidLow: 17988512154315670415
+      m_GuidHigh: 14888622566617106538
+    m_Size: {x: 0.1, y: 0.15}
+    m_SpecifySize: 1
+    m_Name: Penguin
+    m_Texture: {fileID: 0}

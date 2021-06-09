@@ -201,3 +201,16 @@ public class QuizStatsMessage : EventMessage
     }
 }
 
+/// <summary>
+/// Event message that holds question stats data.
+/// </summary>
+public class AnimalDataMessage : EventMessage
+{
+    public AnimalData AnimalData;
+
+    public AnimalDataMessage(AnimalData animalData)
+    {
+        AnimalData = animalData;
+    }
+}
+
