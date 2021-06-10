@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e7c10335b2cd94db18844fe57c506a, type: 3}
   m_Name: LocalizationData
   m_EditorClassIdentifier: 
+  _currentLanguage: 0
   _languageForValueInput:
   - Key: GoToQuiz
     LanguageData:
@@ -69,3 +70,7 @@ MonoBehaviour:
     LanguageData:
       English: Settings
       Croatian: Postavke
+  - Key: AppTitle
+    LanguageData:
+      English: AR Museum
+      Croatian: AR Muzej

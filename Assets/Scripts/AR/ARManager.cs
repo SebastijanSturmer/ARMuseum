@@ -15,26 +15,41 @@ public class ARManager : MonoBehaviour
     [SerializeField] private List<AnimalData> _animalsFromJSON;
 
     [Header("References")]
-    [SerializeField] private ARTrackedImageManager _trackedImageManager;
+    [SerializeField] private GameObject _trackedImageManagerPrefab;
     [SerializeField] private AssetReference _animalsJSON;
 
     [Header("Events")]
     [SerializeField] private ScriptableEvent _arAnimalDetected;
 
+    private ARTrackedImageManager _trackedImageManager;
+    private ARSession _arSession;
     private List<AnimalTrackedImageAndGameObject> _spawnedAnimals = new List<AnimalTrackedImageAndGameObject>();
     private ARTrackedImage _lastTrackedImage;
 
     private bool _loadingAnimalsCompleted;
-    
-    private void OnDisable()
-    {
-        _trackedImageManager.trackedImagesChanged -= OnImageRecognized;
-    }
+
+
 
     public void OnStartAR()
     {
         StartCoroutine(StartARCoroutine());
 
+    }
+    public void OnExitAR()
+    {
+        for (int i = 0; i < _spawnedAnimals.Count; i++)
+        {
+            if (_spawnedAnimals[i].GameObject != null)
+                Destroy(_spawnedAnimals[i].GameObject);
+        }
+
+        _spawnedAnimals.Clear();
+        _lastTrackedImage = null;
+        _arSession.Reset();
+
+        _trackedImageManager.trackedImagesChanged -= OnImageRecognized;
+
+        Destroy(_trackedImageManager.gameObject);
     }
 
     private IEnumerator StartARCoroutine()
@@ -43,7 +58,11 @@ public class ARManager : MonoBehaviour
 
         yield return new WaitUntil(() => _loadingAnimalsCompleted == true);
 
+        _trackedImageManager = Instantiate(_trackedImageManagerPrefab,this.transform).GetComponent<ARTrackedImageManager>();
+        _arSession = _trackedImageManager.GetComponentInChildren<ARSession>();
+
         _trackedImageManager.trackedImagesChanged += OnImageRecognized;
+        
     }
 
     private void GetAnimalsFromJSON()

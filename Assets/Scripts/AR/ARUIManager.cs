@@ -10,6 +10,7 @@ public class ARUIManager : MonoBehaviour
 
     [Header("Events")]
     [SerializeField] private ScriptableEvent _loadMainMenu;
+    [SerializeField] private ScriptableEvent _exitAR;
 
     private AnimalData _currentAnimal;
 
@@ -18,12 +19,21 @@ public class ARUIManager : MonoBehaviour
         _arMainMenuPanelController.TogglePanel(true);
         _arAnimalInfoPanelController.TogglePanel(false, true, false);
     }
-
+    
+    /// <summary>
+    /// Exits AR and opens main menu panel
+    /// </summary>
     public void OnReturnToMainMenuButtonPressed()
     {
-        _loadMainMenu.RaiseEvent();
+        _exitAR.RaiseEvent();
+        _arMainMenuPanelController.TogglePanel(true);
+        _arAnimalInfoPanelController.TogglePanel(false, true, false);
     }
 
+    /// <summary>
+    /// Event function that responds to animal detected from AR Manager. It will send info data about that animal to info panel
+    /// </summary>
+    /// <param name="animalDataMessage"></param>
     public void OnAnimalDetected(EventMessage animalDataMessage)
     {
         _currentAnimal = ((AnimalDataMessage)animalDataMessage).AnimalData;

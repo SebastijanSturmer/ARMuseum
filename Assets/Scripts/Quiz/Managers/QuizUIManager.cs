@@ -29,6 +29,7 @@ public class QuizUIManager : MonoBehaviour
 
     public void OnQuizStarted()
     {
+        _quizStartPanelController.TogglePanel(false);
         _quizEndPanelController.TogglePanel(false);
 
         _questionPanelController = Instantiate(_quizPanelPrefab, _questionPanelParent).GetComponent<QuestionPanelController>();
