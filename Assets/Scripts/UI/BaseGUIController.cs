@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BaseGUIController : MonoBehaviour
 {
-    [SerializeField] private GameObject _mainPanel;
+    [SerializeField] protected GameObject _mainPanel;
 
-    public void TogglePanel(bool shouldDisplay)
+    public virtual void TogglePanel(bool shouldDisplay)
     {
         if (shouldDisplay)
         {

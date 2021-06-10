@@ -23,6 +23,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 4900000, guid: c66749bfa7bd80a4889caf59ede1b0db, type: 3}
     m_TargetAsset: {fileID: 4900000, guid: c66749bfa7bd80a4889caf59ede1b0db, type: 3}
+  - m_GUID: f73e19d37bfe322409cfbb5bcf67f992
+    m_Address: AR/animals.json
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 82872f19ac861d34793236042647148a, type: 2}
   m_SchemaSet:

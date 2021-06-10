@@ -4,32 +4,80 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+
 public class ARManager : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float _spawnSpeed;
-    [SerializeField] private GameObject _prefabToSpawn;
+    [SerializeField] private List<AnimalNameAndPrefab> _availableAnimalPrefabs;
+    [SerializeField] private List<AnimalData> _animalsFromJSON;
 
     [Header("References")]
     [SerializeField] private ARTrackedImageManager _trackedImageManager;
+    [SerializeField] private AssetReference _animalsJSON;
 
     [Header("Events")]
     [SerializeField] private ScriptableEvent _arAnimalDetected;
 
-    private GameObject _spawnedObject;
+    private List<AnimalTrackedImageAndGameObject> _spawnedAnimals = new List<AnimalTrackedImageAndGameObject>();
+    private ARTrackedImage _lastTrackedImage;
 
+    private bool _loadingAnimalsCompleted;
     
-
-    private void OnEnable()
-    {
-        _trackedImageManager.trackedImagesChanged += OnImageRecognized;
-    }
     private void OnDisable()
     {
         _trackedImageManager.trackedImagesChanged -= OnImageRecognized;
     }
 
+    public void OnStartAR()
+    {
+        StartCoroutine(StartARCoroutine());
 
+    }
+
+    private IEnumerator StartARCoroutine()
+    {
+        GetAnimalsFromJSON();
+
+        yield return new WaitUntil(() => _loadingAnimalsCompleted == true);
+
+        _trackedImageManager.trackedImagesChanged += OnImageRecognized;
+    }
+
+    private void GetAnimalsFromJSON()
+    {
+        _loadingAnimalsCompleted = false;
+
+        _animalsFromJSON = new List<AnimalData>();
+
+        if (!_animalsJSON.RuntimeKeyIsValid())
+        {
+            Debug.LogError("QuizManager : Json Questions runtime key is not valid!");
+            return;
+        }
+
+
+        _animalsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
+        {
+            ListOfAnimalData animals = JsonUtility.FromJson<ListOfAnimalData>(handle.Result.text);
+            for (int i = 0; i < animals.Animals.Count; i++)
+            {
+                _animalsFromJSON.Add(animals.Animals[i]);
+            }
+
+            _loadingAnimalsCompleted = true;
+
+            Addressables.Release(handle);
+        };
+
+    }
+
+    /// <summary>
+    /// Event function that is called when TrackedImageManager updates! Used for spawning,positioning and destroying objects
+    /// </summary>
+    /// <param name="args"></param>
     public void OnImageRecognized(ARTrackedImagesChangedEventArgs args)
     {
         foreach (ARTrackedImage trackedImage in args.added)
@@ -38,7 +86,7 @@ public class ARManager : MonoBehaviour
         }
         foreach (ARTrackedImage trackedImage in args.updated)
         {
-            UpdateObjectPosition(trackedImage);
+            UpdateObject(trackedImage);
         }
         foreach (ARTrackedImage trackedImage in args.removed)
         {
@@ -47,37 +95,159 @@ public class ARManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Coroutine that will spawn object depending on tracked image and it will animate its spawn (growing)
+    /// </summary>
+    /// <param name="trackedImage"></param>
+    /// <returns></returns>
     IEnumerator SpawnObjectOnImage(ARTrackedImage trackedImage)
     {
-        _spawnedObject = Instantiate(_prefabToSpawn, trackedImage.transform.position, trackedImage.transform.rotation, this.gameObject.transform);
-        _spawnedObject.transform.localScale = Vector3.zero;
-        _spawnedObject.name = trackedImage.name;
+        GameObject prefabToSpawn = null;
+        //Finding prefab from list
+        for (int i = 0; i < _availableAnimalPrefabs.Count; i++)
+        {
+            if (_availableAnimalPrefabs[i].AnimalName == trackedImage.referenceImage.name)
+            {
+                prefabToSpawn = _availableAnimalPrefabs[i].AnimalPrefab;
+                break;
+            }
+        }
+        //If we havent found animal in list then break
+        if (prefabToSpawn == null)
+            yield break;
 
+        //Spawning object
+        GameObject spawnedObject = Instantiate(prefabToSpawn, trackedImage.transform.position, trackedImage.transform.rotation, this.gameObject.transform);
+        spawnedObject.transform.localScale = Vector3.zero;
+        spawnedObject.name = trackedImage.referenceImage.name;
+
+
+        _spawnedAnimals.Add(new AnimalTrackedImageAndGameObject(trackedImage, spawnedObject));
+        //Animating spawn
         float lerpValue = 0;
         while (true)
         {
-            lerpValue += Time.deltaTime * _spawnSpeed;
+            lerpValue += Time.fixedDeltaTime * _spawnSpeed;
+            if (lerpValue > 1)
+                lerpValue = 1;
 
-            if (_spawnedObject.transform.localScale.x >= 1)
+            if (spawnedObject.transform.localScale.x >= 1)
                 break;
 
-            _spawnedObject.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, lerpValue);
+            spawnedObject.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, lerpValue);
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
 
-        _arAnimalDetected.RaiseEvent(new AnimalDataMessage(new AnimalData())); //TODO
+        FindAnimalDataFromImageAndCallAnimalDetectedEvent(trackedImage);
     }
 
-    private void UpdateObjectPosition(ARTrackedImage trackedImage)
+    private void UpdateObject(ARTrackedImage trackedImage)
     {
-        _spawnedObject.transform.position = trackedImage.transform.position;
-        _spawnedObject.transform.rotation = trackedImage.transform.rotation;
+        //If this image is currently being tracked and it is different from last tracked image then find data and send to UI
+        if (trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Tracking && _lastTrackedImage != trackedImage)
+        { 
+            FindAnimalDataFromImageAndCallAnimalDetectedEvent(trackedImage);
+            _lastTrackedImage = trackedImage;
+        }
+
+
+        for (int i = 0; i < _spawnedAnimals.Count; i++)
+        {
+            if (_spawnedAnimals[i].Image == trackedImage)
+            {
+                _spawnedAnimals[i].GameObject.transform.position = trackedImage.transform.position;
+                _spawnedAnimals[i].GameObject.transform.rotation = trackedImage.transform.rotation;
+            }
+        }
+    }
+
+    private void FindAnimalDataFromImageAndCallAnimalDetectedEvent(ARTrackedImage trackedImage)
+    {
+        //Find animal in data
+        AnimalData detectedAnimal = null;
+        for (int i = 0; i < _animalsFromJSON.Count; i++)
+        {
+            if (_animalsFromJSON[i].AnimalName == trackedImage.referenceImage.name)
+            {
+                detectedAnimal = _animalsFromJSON[i];
+            }
+        }
+
+        //Raising event about detected animal
+        //Used for GUI info about that animal.
+        _arAnimalDetected.RaiseEvent(new AnimalDataMessage(detectedAnimal));
     }
 
     void RemoveObjectFromImage(ARTrackedImage trackedImage)
     {
-        Destroy(_spawnedObject);
+        List<AnimalTrackedImageAndGameObject> spawnedAnimalsListCopy = new List<AnimalTrackedImageAndGameObject>();
+
+        for (int i = 0; i < _spawnedAnimals.Count; i++)
+        {
+            spawnedAnimalsListCopy.Add(_spawnedAnimals[i]);
+        }
+
+        for (int i = 0; i < spawnedAnimalsListCopy.Count; i++)
+        {
+            if (spawnedAnimalsListCopy[i].Image == trackedImage)
+            {
+                Destroy(spawnedAnimalsListCopy[i].GameObject);
+                _spawnedAnimals.Remove(spawnedAnimalsListCopy[i]);
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// Debug function for looking at JSON format
+    /// </summary>
+    void GenerateAnimals()
+    {
+        ListOfAnimalData listOfAnimals = new ListOfAnimalData();
+        listOfAnimals.Animals = new List<AnimalData>();
+
+        for (int i = 0; i < 2; i++)
+        {
+            AnimalData animal = new AnimalData();
+
+            animal.AnimalName = "Penguin";
+            animal.BasicInfo = "Penguins live on Antartica. They like cold!";
+            animal.ShortInfo = new ShortInfoStruct[3];
+
+            animal.ShortInfo[0].Key = "Climate";
+            animal.ShortInfo[0].Value = "Cold";
+            animal.ShortInfo[1].Key = "Food";
+            animal.ShortInfo[1].Value = "Meat";
+            animal.ShortInfo[2].Key = "Height";
+            animal.ShortInfo[2].Value = "1.5m";
+
+            listOfAnimals.Animals.Add(animal);
+        }
+
+        string json = JsonUtility.ToJson(listOfAnimals);
+        Debug.Log(json);
+    }
+}
+
+/// <summary>
+/// Struct used for holding prefabs with names as identification
+/// </summary>
+[Serializable]
+public struct AnimalNameAndPrefab
+{
+    public string AnimalName;
+    public GameObject AnimalPrefab;
+}
+
+public struct AnimalTrackedImageAndGameObject
+{
+    public ARTrackedImage Image;
+    public GameObject GameObject;
+
+    public AnimalTrackedImageAndGameObject(ARTrackedImage image, GameObject gameObject)
+    {
+        Image = image;
+        GameObject = gameObject;
     }
 }

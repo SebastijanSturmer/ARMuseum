@@ -7,4 +7,6 @@ public class Enums
     public enum ScriptableEvent { }
 
     public enum Language { English, Croatian}
+
+    public enum AnimalInfoPanels { BasicInfo, ShortInfo, MapInfo}
 }

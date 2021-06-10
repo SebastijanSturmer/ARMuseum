@@ -1,0 +1,36 @@
+{
+    "Animals": [
+        {
+            "AnimalName": "Penguin",
+            "BasicInfo": "Penguins live on Antartica. They like cold!",
+            "ShortInfo": [
+                {
+                    "Key": "Climate",
+                    "Value": "Cold"
+                },
+                {
+                    "Key": "Food",
+                    "Value": "Meat"
+                },
+                {
+                    "Key": "Height",
+                    "Value": "1.5m"
+                }
+            ]
+        },
+        {
+            "AnimalName": "Dog",
+            "BasicInfo": "Dogs are humans best friend",
+            "ShortInfo": [
+                {
+                    "Key": "Climate",
+                    "Value": "Any"
+                },
+                {
+                    "Key": "Food",
+                    "Value": "Meat"
+                }
+            ]
+        }
+    ]
+}

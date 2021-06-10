@@ -33,31 +33,6 @@ public class QuizManager : MonoBehaviour
         StartCoroutine(StartQuiz());
     }
 
-    void GenerateQuestion()
-    {
-        ListOfQuizQuestions listOfQuestions = new ListOfQuizQuestions();
-        listOfQuestions.Questions = new List<QuizQuestion>();
-        for (int i = 0; i < 15; i++)
-        {
-            QuizQuestion question = new QuizQuestion();
-            question.Question = "Lalal sajgihasjgasj  ahisgjan ashgiajjs?";
-
-            question.Answers = new string[4];
-            question.Answers[0] = "aaaaa";
-            question.Answers[1] = "bbbbbbbb";
-            question.Answers[2] = "cccccccccccccc";
-            question.Answers[3] = "ddddd";
-
-            question.CorrectAnswer = "cccccccccccccc";
-
-
-            listOfQuestions.Questions.Add(question);
-        }
-
-        string json = JsonUtility.ToJson(listOfQuestions);
-        Debug.Log(json);
-    }
-
     public void OnAnswerSelected(EventMessage intMessage)
     {
         int selectedAnswerIndex = ((IntMessage)intMessage).IntValue;
@@ -161,5 +136,33 @@ public class QuizManager : MonoBehaviour
         _quizStarted.RaiseEvent();
 
         GetNewQuestion();
+    }
+
+    /// <summary>
+    /// Debug function for looking at JSON format
+    /// </summary>
+    void GenerateQuestion()
+    {
+        ListOfQuizQuestions listOfQuestions = new ListOfQuizQuestions();
+        listOfQuestions.Questions = new List<QuizQuestion>();
+        for (int i = 0; i < 15; i++)
+        {
+            QuizQuestion question = new QuizQuestion();
+            question.Question = "Lalal sajgihasjgasj  ahisgjan ashgiajjs?";
+
+            question.Answers = new string[4];
+            question.Answers[0] = "aaaaa";
+            question.Answers[1] = "bbbbbbbb";
+            question.Answers[2] = "cccccccccccccc";
+            question.Answers[3] = "ddddd";
+
+            question.CorrectAnswer = "cccccccccccccc";
+
+
+            listOfQuestions.Questions.Add(question);
+        }
+
+        string json = JsonUtility.ToJson(listOfQuestions);
+        Debug.Log(json);
     }
 }
