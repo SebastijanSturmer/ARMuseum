@@ -5,9 +5,12 @@ using System.Collections.Generic;
 [Serializable]
 public class QuizQuestion
 {
-    public string Question;
+    public string QuestionEN;
+    public string QuestionHR;
 
-    public string[] Answers;
+    public string[] AnswersEN;
+    public string[] AnswersHR;
 
-    public string CorrectAnswer;
+    public string CorrectAnswerEN;
+    public string CorrectAnswerHR;
 }

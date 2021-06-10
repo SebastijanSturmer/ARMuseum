@@ -12,14 +12,14 @@ public class AnimatedBaseGUIController : BaseGUIController
 
     private Coroutine _openCloseCoroutine;
 
-    public virtual void TogglePanel(bool shouldDisplay, bool shouldBypassAnimation = false)
+    public virtual void TogglePanel(bool shouldDisplay, bool shouldBypassAnimation = false, bool shouldDeactivatePanelAfterAnimation = true)
     {
         if (_shouldAnimate)
         {
             if (_openCloseCoroutine != null)
                 StopCoroutine(_openCloseCoroutine);
 
-            _openCloseCoroutine = StartCoroutine(AnimateOpenClosePanel(shouldDisplay, shouldBypassAnimation));
+            _openCloseCoroutine = StartCoroutine(AnimateOpenClosePanel(shouldDisplay, shouldBypassAnimation, shouldDeactivatePanelAfterAnimation));
            
         }
         else
@@ -31,7 +31,7 @@ public class AnimatedBaseGUIController : BaseGUIController
         }
     }
 
-    private IEnumerator AnimateOpenClosePanel(bool shouldDisplay, bool shouldBypassAnimation)
+    private IEnumerator AnimateOpenClosePanel(bool shouldDisplay, bool shouldBypassAnimation, bool shouldDeactivatePanelAfterAnimation)
     {
         Vector3 targetPosition;
         Vector3 startPosition;
@@ -73,7 +73,7 @@ public class AnimatedBaseGUIController : BaseGUIController
         }
 
         //Turn off panel after animation if we are closing it
-        if (!shouldDisplay)
+        if (!shouldDisplay && shouldDeactivatePanelAfterAnimation)
             _mainPanel.SetActive(false);
     }
 }

@@ -1,94 +1,154 @@
-{
+﻿{
     "Questions": [
         {
-            "Question": "True of false: A donkey is able to see all four of its feet?",
-            "Answers": [ "True", "False" ],
-            "CorrectAnswer": "True"
+            "QuestionEN": "True of false: A donkey is able to see all four of its feet?",
+            "QuestionHR": "Točno ili krivo: Magarac može vidjeti sve 4 svoje noge?",
+
+            "AnswersEN": [ "True", "False" ],
+            "AnswersHR": [ "Točno", "Krivo" ],
+
+            "CorrectAnswerEN": "True",
+            "CorrectAnswerHR": "Točno"
         },
         {
-            "Question": "A group of crows are referred to as a what?",
-            "Answers": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
-            "CorrectAnswer": "A murder of crows"
+            "QuestionEN": "A group of crows are referred to as a what?",
+            "QuestionHR": "Kako se naziva grupa vrana?",
+
+            "AnswersEN": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Hjao", "Uhhh" ],
+
+            "CorrectAnswerEN": "A murder of crows",
+            "CorrectAnswerHR": "Hjao"
         },
         {
-            "Question": "What sea creature is a blue whale's favourite meal?",
-            "Answers": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
-            "CorrectAnswer": "Krill"
+            "QuestionEN": "What sea creature is a blue whale's favourite meal?",
+            "QuestionHR": "Koja morska životinja je najdraža hrana plavom kitu?",
+
+            "AnswersEN": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Kril", "Uhhhh" ],
+
+            "CorrectAnswerEN": "Krill",
+            "CorrectAnswerHR": "Kril"
         },
         {
-            "Question": "True of false: A donkey is able to see all four of its feet?",
-            "Answers": [ "True", "False" ],
-            "CorrectAnswer": "True"
+            "QuestionEN": "True of false: A donkey is able to see all four of its feet?",
+            "QuestionHR": "Točno ili krivo: Magarac može vidjeti sve 4 svoje noge?",
+
+            "AnswersEN": [ "True", "False" ],
+            "AnswersHR": [ "Točno", "Krivo" ],
+
+            "CorrectAnswerEN": "True",
+            "CorrectAnswerHR": "Točno"
         },
         {
-            "Question": "A group of crows are referred to as a what?",
-            "Answers": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
-            "CorrectAnswer": "A murder of crows"
+            "QuestionEN": "A group of crows are referred to as a what?",
+            "QuestionHR": "Kako se naziva grupa vrana?",
+
+            "AnswersEN": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Hjao", "Uhhh" ],
+
+            "CorrectAnswerEN": "A murder of crows",
+            "CorrectAnswerHR": "Hjao"
         },
         {
-            "Question": "What sea creature is a blue whale's favourite meal?",
-            "Answers": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
-            "CorrectAnswer": "Krill"
+            "QuestionEN": "What sea creature is a blue whale's favourite meal?",
+            "QuestionHR": "Koja morska životinja je najdraža hrana plavom kitu?",
+
+            "AnswersEN": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Kril", "Uhhhh" ],
+
+            "CorrectAnswerEN": "Krill",
+            "CorrectAnswerHR": "Kril"
         },
         {
-            "Question": "True of false: A donkey is able to see all four of its feet?",
-            "Answers": [ "True", "False" ],
-            "CorrectAnswer": "True"
+            "QuestionEN": "True of false: A donkey is able to see all four of its feet?",
+            "QuestionHR": "Točno ili krivo: Magarac može vidjeti sve 4 svoje noge?",
+
+            "AnswersEN": [ "True", "False" ],
+            "AnswersHR": [ "Točno", "Krivo" ],
+
+            "CorrectAnswerEN": "True",
+            "CorrectAnswerHR": "Točno"
         },
         {
-            "Question": "A group of crows are referred to as a what?",
-            "Answers": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
-            "CorrectAnswer": "A murder of crows"
+            "QuestionEN": "A group of crows are referred to as a what?",
+            "QuestionHR": "Kako se naziva grupa vrana?",
+
+            "AnswersEN": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Hjao", "Uhhh" ],
+
+            "CorrectAnswerEN": "A murder of crows",
+            "CorrectAnswerHR": "Hjao"
         },
         {
-            "Question": "What sea creature is a blue whale's favourite meal?",
-            "Answers": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
-            "CorrectAnswer": "Krill"
+            "QuestionEN": "What sea creature is a blue whale's favourite meal?",
+            "QuestionHR": "Koja morska životinja je najdraža hrana plavom kitu?",
+
+            "AnswersEN": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Kril", "Uhhhh" ],
+
+            "CorrectAnswerEN": "Krill",
+            "CorrectAnswerHR": "Kril"
         },
         {
-            "Question": "True of false: A donkey is able to see all four of its feet?",
-            "Answers": [ "True", "False" ],
-            "CorrectAnswer": "True"
+            "QuestionEN": "True of false: A donkey is able to see all four of its feet?",
+            "QuestionHR": "Točno ili krivo: Magarac može vidjeti sve 4 svoje noge?",
+
+            "AnswersEN": [ "True", "False" ],
+            "AnswersHR": [ "Točno", "Krivo" ],
+
+            "CorrectAnswerEN": "True",
+            "CorrectAnswerHR": "Točno"
         },
         {
-            "Question": "A group of crows are referred to as a what?",
-            "Answers": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
-            "CorrectAnswer": "A murder of crows"
+            "QuestionEN": "A group of crows are referred to as a what?",
+            "QuestionHR": "Kako se naziva grupa vrana?",
+
+            "AnswersEN": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Hjao", "Uhhh" ],
+
+            "CorrectAnswerEN": "A murder of crows",
+            "CorrectAnswerHR": "Hjao"
         },
         {
-            "Question": "What sea creature is a blue whale's favourite meal?",
-            "Answers": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
-            "CorrectAnswer": "Krill"
+            "QuestionEN": "What sea creature is a blue whale's favourite meal?",
+            "QuestionHR": "Koja morska životinja je najdraža hrana plavom kitu?",
+
+            "AnswersEN": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Kril", "Uhhhh" ],
+
+            "CorrectAnswerEN": "Krill",
+            "CorrectAnswerHR": "Kril"
         },
         {
-            "Question": "True of false: A donkey is able to see all four of its feet?",
-            "Answers": [ "True", "False" ],
-            "CorrectAnswer": "True"
+            "QuestionEN": "True of false: A donkey is able to see all four of its feet?",
+            "QuestionHR": "Točno ili krivo: Magarac može vidjeti sve 4 svoje noge?",
+
+            "AnswersEN": [ "True", "False" ],
+            "AnswersHR": [ "Točno", "Krivo" ],
+
+            "CorrectAnswerEN": "True",
+            "CorrectAnswerHR": "Točno"
         },
         {
-            "Question": "A group of crows are referred to as a what?",
-            "Answers": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
-            "CorrectAnswer": "A murder of crows"
+            "QuestionEN": "A group of crows are referred to as a what?",
+            "QuestionHR": "Kako se naziva grupa vrana?",
+
+            "AnswersEN": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Hjao", "Uhhh" ],
+
+            "CorrectAnswerEN": "A murder of crows",
+            "CorrectAnswerHR": "Hjao"
         },
         {
-            "Question": "What sea creature is a blue whale's favourite meal?",
-            "Answers": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
-            "CorrectAnswer": "Krill"
-        },
-        {
-            "Question": "True of false: A donkey is able to see all four of its feet?",
-            "Answers": [ "True", "False" ],
-            "CorrectAnswer": "True"
-        },
-        {
-            "Question": "A group of crows are referred to as a what?",
-            "Answers": [ "I wont tell you", "A group of crows", "A something of crows", "A murder of crows" ],
-            "CorrectAnswer": "A murder of crows"
-        },
-        {
-            "Question": "What sea creature is a blue whale's favourite meal?",
-            "Answers": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
-            "CorrectAnswer": "Krill"
+            "QuestionEN": "What sea creature is a blue whale's favourite meal?",
+            "QuestionHR": "Koja morska životinja je najdraža hrana plavom kitu?",
+
+            "AnswersEN": [ "Dunno", "Really dont know", "Krill", "Uhhhh" ],
+            "AnswersHR": [ "Ne znam", "Stvarno ne znam", "Kril", "Uhhhh" ],
+
+            "CorrectAnswerEN": "Krill",
+            "CorrectAnswerHR": "Kril"
         }
     ]
 }

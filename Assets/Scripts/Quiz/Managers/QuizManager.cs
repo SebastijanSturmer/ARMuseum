@@ -37,10 +37,22 @@ public class QuizManager : MonoBehaviour
     {
         int selectedAnswerIndex = ((IntMessage)intMessage).IntValue;
 
-        if (_selectedQuestions[_currentQuestionIndex].CorrectAnswer == _selectedQuestions[_currentQuestionIndex].Answers[selectedAnswerIndex])
+        switch(LocalizationManager.Instance.Language)
         {
-            _numberOfCorrectAnswers++;
+            case Enums.Language.English:
+                if (_selectedQuestions[_currentQuestionIndex].CorrectAnswerEN == _selectedQuestions[_currentQuestionIndex].AnswersEN[selectedAnswerIndex])
+                {
+                    _numberOfCorrectAnswers++;
+                }
+                break;
+            case Enums.Language.Croatian:
+                if (_selectedQuestions[_currentQuestionIndex].CorrectAnswerHR == _selectedQuestions[_currentQuestionIndex].AnswersHR[selectedAnswerIndex])
+                {
+                    _numberOfCorrectAnswers++;
+                }
+                break;
         }
+        
 
 
         if (_currentQuestionIndex + 1 > _numberOfQuestions - 1)
@@ -148,16 +160,23 @@ public class QuizManager : MonoBehaviour
         for (int i = 0; i < 15; i++)
         {
             QuizQuestion question = new QuizQuestion();
-            question.Question = "Lalal sajgihasjgasj  ahisgjan ashgiajjs?";
+            question.QuestionEN = "Lalal sajgihasjgasj  ahisgjan ashgiajjs?";
+            question.QuestionHR = "SAGsaignaks ioasikgmas asgoj?";
 
-            question.Answers = new string[4];
-            question.Answers[0] = "aaaaa";
-            question.Answers[1] = "bbbbbbbb";
-            question.Answers[2] = "cccccccccccccc";
-            question.Answers[3] = "ddddd";
+            question.AnswersEN = new string[4];
+            question.AnswersEN[0] = "aaaaa";
+            question.AnswersEN[1] = "bbbbbbbb";
+            question.AnswersEN[2] = "cccccccccccccc";
+            question.AnswersEN[3] = "ddddd";
 
-            question.CorrectAnswer = "cccccccccccccc";
+            question.AnswersHR = new string[4];
+            question.AnswersHR[0] = "aaaaa";
+            question.AnswersHR[1] = "bbbbbbbb";
+            question.AnswersHR[2] = "cccccccccccccc";
+            question.AnswersHR[3] = "ddddd";
 
+            question.CorrectAnswerEN = "cccccccccccccc";
+            question.CorrectAnswerHR = "cccccccccccccc";
 
             listOfQuestions.Questions.Add(question);
         }

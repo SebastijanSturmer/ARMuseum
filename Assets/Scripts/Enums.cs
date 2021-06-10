@@ -8,5 +8,5 @@ public class Enums
 
     public enum Language { English, Croatian}
 
-    public enum AnimalInfoPanels { BasicInfo, ShortInfo, MapInfo}
+    public enum AnimalInfoPanels {None, BasicInfo, ShortInfo, MapInfo}
 }

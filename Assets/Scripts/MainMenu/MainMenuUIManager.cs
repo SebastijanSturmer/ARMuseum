@@ -3,30 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuUIManager : MonoBehaviour
+public class MainMenuUIManager : BaseGUIController
 {
     [Header("Internal References")]
-    [SerializeField] private LanguageSelectorController _languageSelectorController;
+    [SerializeField] private SettingsUIController _settingsUIController;
     [SerializeField] private Button _arButton;
 
     [Header("Events")]
     [SerializeField] private ScriptableEvent _loadQuiz;
     [SerializeField] private ScriptableEvent _loadAR;
-    [SerializeField] private ScriptableEvent _changeLanguage;
 
-    private int _selectedLanguageIndex = 0;
 
     void Start()
     {
-        CheckPlatformAndDisableARIfNecessary();
-    }
+        TogglePanel(true);
+        _settingsUIController.TogglePanel(false);
 
-    /// <summary>
-    /// Triggered by exiting from 
-    /// </summary>
-    public void OnLanguageChangeConfirmed()
-    {
-        _changeLanguage.RaiseEvent(new LanguageMessage(_languageSelectorController.SelectedLanguage));
+        CheckPlatformAndDisableARIfNecessary();
     }
     
     public void OnQuizButton()
@@ -36,6 +29,11 @@ public class MainMenuUIManager : MonoBehaviour
     public void OnARButton()
     {
         _loadAR.RaiseEvent();
+    }
+    public void OnSettingsButton()
+    {
+        TogglePanel(false); //Close main panel 
+        _settingsUIController.TogglePanel(true); //and open settings panel
     }
 
     public void OnQuitButton()

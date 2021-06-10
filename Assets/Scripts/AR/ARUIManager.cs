@@ -16,7 +16,7 @@ public class ARUIManager : MonoBehaviour
     private void Start()
     {
         _arMainMenuPanelController.TogglePanel(true);
-        _arAnimalInfoPanelController.TogglePanel(false, true);
+        _arAnimalInfoPanelController.TogglePanel(false, true, false);
     }
 
     public void OnReturnToMainMenuButtonPressed()

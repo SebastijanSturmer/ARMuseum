@@ -75,7 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b106d574a5f52448bca8a4eab83dbdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _language: 0
+  _language: 1
+  _localizationData: {fileID: 11400000, guid: 262b80f73980d064ebe03c97d8b296e6, type: 2}
+  _textsToUpdate: []
 --- !u!1 &6944657602164896764
 GameObject:
   m_ObjectHideFlags: 0

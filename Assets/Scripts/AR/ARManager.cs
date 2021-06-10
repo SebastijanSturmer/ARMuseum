@@ -168,7 +168,7 @@ public class ARManager : MonoBehaviour
         AnimalData detectedAnimal = null;
         for (int i = 0; i < _animalsFromJSON.Count; i++)
         {
-            if (_animalsFromJSON[i].AnimalName == trackedImage.referenceImage.name)
+            if (_animalsFromJSON[i].AnimalNameEN == trackedImage.referenceImage.name) //We are searching by english name because pictures will be named on english
             {
                 detectedAnimal = _animalsFromJSON[i];
             }
@@ -211,16 +211,28 @@ public class ARManager : MonoBehaviour
         {
             AnimalData animal = new AnimalData();
 
-            animal.AnimalName = "Penguin";
-            animal.BasicInfo = "Penguins live on Antartica. They like cold!";
-            animal.ShortInfo = new ShortInfoStruct[3];
+            animal.AnimalNameEN = "Penguin";
+            animal.AnimalNameHR = "Pingvin";
 
-            animal.ShortInfo[0].Key = "Climate";
-            animal.ShortInfo[0].Value = "Cold";
-            animal.ShortInfo[1].Key = "Food";
-            animal.ShortInfo[1].Value = "Meat";
-            animal.ShortInfo[2].Key = "Height";
-            animal.ShortInfo[2].Value = "1.5m";
+            animal.BasicInfoEN = "Penguins live on Antartica. They like cold!";
+            animal.BasicInfoHR = "Penguins live on Antartica. They like cold!";
+
+            animal.ShortInfoEN = new ShortInfoStruct[3];
+            animal.ShortInfoHR = new ShortInfoStruct[3];
+
+            animal.ShortInfoEN[0].Key = "Climate";
+            animal.ShortInfoEN[0].Value = "Cold";
+            animal.ShortInfoEN[1].Key = "Food";
+            animal.ShortInfoEN[1].Value = "Meat";
+            animal.ShortInfoEN[2].Key = "Height";
+            animal.ShortInfoEN[2].Value = "1.5m";
+
+            animal.ShortInfoHR[0].Key = "Climate";
+            animal.ShortInfoHR[0].Value = "Cold";
+            animal.ShortInfoHR[1].Key = "Food";
+            animal.ShortInfoHR[1].Value = "Meat";
+            animal.ShortInfoHR[2].Key = "Height";
+            animal.ShortInfoHR[2].Value = "1.5m";
 
             listOfAnimals.Animals.Add(animal);
         }

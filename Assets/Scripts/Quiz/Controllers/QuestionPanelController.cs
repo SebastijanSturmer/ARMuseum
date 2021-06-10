@@ -33,18 +33,37 @@ public class QuestionPanelController : BaseGUIController
     /// <param name="question"></param>
     private void SetupQuestion(QuizQuestion question)
     {
-        _questionText.text = question.Question;
+        switch (LocalizationManager.Instance.Language)
+        {
+            case Enums.Language.English:
+                _questionText.text = question.QuestionEN;
+                break;
+            case Enums.Language.Croatian:
+                _questionText.text = question.QuestionHR;
+                break;
+        }
+            
 
         for (int i = 0; i < _answerButtons.Length; i++)
         {
-            if (question.Answers.Length < i+1)
+            if (question.AnswersEN.Length < i+1)
             {
                 _answerButtons[i].gameObject.SetActive(false);
             }
             else
             {
                 _answerButtons[i].gameObject.SetActive(true);
-                _answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = question.Answers[i];
+
+                switch (LocalizationManager.Instance.Language)
+                {
+                    case Enums.Language.English:
+                        _answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = question.AnswersEN[i];
+                        break;
+                    case Enums.Language.Croatian:
+                        _answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = question.AnswersHR[i];
+                        break;
+                }
+                
             }
         }
 

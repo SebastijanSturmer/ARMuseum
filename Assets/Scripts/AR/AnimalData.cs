@@ -6,9 +6,14 @@ using UnityEngine;
 [Serializable]
 public class AnimalData
 {
-    public string AnimalName;
-    public string BasicInfo;
-    public ShortInfoStruct[] ShortInfo;
+    public string AnimalNameEN;
+    public string AnimalNameHR;
+
+    public string BasicInfoEN;
+    public string BasicInfoHR;
+
+    public ShortInfoStruct[] ShortInfoEN;
+    public ShortInfoStruct[] ShortInfoHR;
 }
 
 [Serializable]

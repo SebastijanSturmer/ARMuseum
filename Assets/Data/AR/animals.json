@@ -1,9 +1,13 @@
-{
+﻿{
     "Animals": [
         {
-            "AnimalName": "Penguin",
-            "BasicInfo": "Penguins live on Antartica. They like cold!",
-            "ShortInfo": [
+            "AnimalNameEN": "Penguin",
+            "AnimalNameHR": "Pingvin",
+
+            "BasicInfoEN": "Penguins live on Antartica. They like cold!",
+            "BasicInfoHR": "Pingvini žive na Antartici. Vole hladnoću",
+
+            "ShortInfoEN": [
                 {
                     "Key": "Climate",
                     "Value": "Cold"
@@ -16,12 +20,31 @@
                     "Key": "Height",
                     "Value": "1.5m"
                 }
+            ],
+
+            "ShortInfoHR": [
+                {
+                    "Key": "Klima",
+                    "Value": "Hladna"
+                },
+                {
+                    "Key": "Hrana",
+                    "Value": "Meso"
+                },
+                {
+                    "Key": "Visina",
+                    "Value": "1.5m"
+                }
             ]
         },
         {
-            "AnimalName": "Dog",
-            "BasicInfo": "Dogs are humans best friend",
-            "ShortInfo": [
+            "AnimalNameEN": "Dog",
+            "AnimalNameHR": "Pas",
+
+            "BasicInfoEN": "Dogs are humans best friend",
+            "BasicInfoHR": "Pas je čovjekov najbolji prijatelj",
+
+            "ShortInfoEN": [
                 {
                     "Key": "Climate",
                     "Value": "Any"
@@ -29,6 +52,16 @@
                 {
                     "Key": "Food",
                     "Value": "Meat"
+                }
+            ],
+            "ShortInfoHR": [
+                {
+                    "Key": "Klima",
+                    "Value": "Bilo koja"
+                },
+                {
+                    "Key": "Hrana",
+                    "Value": "Meso"
                 }
             ]
         }
