@@ -12,6 +12,13 @@ public class AnimatedBaseGUIController : BaseGUIController
 
     private Coroutine _openCloseCoroutine;
 
+    /// <summary>
+    /// Animates opening and closing of panel
+    /// </summary>
+    /// <param name="shouldDisplay">Should we display that panel?</param>
+    /// <param name="shouldBypassAnimation">Should we bypass animation and just set position?</param>
+    /// <param name="shouldDeactivatePanelAfterAnimation">Should we set active state of panel to false if we are closing it?</param>
+    /// <returns></returns>
     public virtual void TogglePanel(bool shouldDisplay, bool shouldBypassAnimation = false, bool shouldDeactivatePanelAfterAnimation = true)
     {
         if (_shouldAnimate)
@@ -31,6 +38,13 @@ public class AnimatedBaseGUIController : BaseGUIController
         }
     }
 
+    /// <summary>
+    /// Animates opening and closing of panel
+    /// </summary>
+    /// <param name="shouldDisplay">Should we display that panel?</param>
+    /// <param name="shouldBypassAnimation">Should we bypass animation and just set position?</param>
+    /// <param name="shouldDeactivatePanelAfterAnimation">Should we set active state of panel to false if we are closing it?</param>
+    /// <returns></returns>
     private IEnumerator AnimateOpenClosePanel(bool shouldDisplay, bool shouldBypassAnimation, bool shouldDeactivatePanelAfterAnimation)
     {
         Vector3 targetPosition;

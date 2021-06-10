@@ -23,10 +23,14 @@ public class QuizUIManager : MonoBehaviour
 
     private void Start()
     {
+        //Toggling start panel and deactivating end panel.
         _quizEndPanelController.TogglePanel(false);
         _quizStartPanelController.TogglePanel(true);
     }
 
+    /// <summary>
+    /// Event function that is called when quiz starts. It will close start and end panels and instantiate question panel.
+    /// </summary>
     public void OnQuizStarted()
     {
         _quizStartPanelController.TogglePanel(false);
@@ -36,6 +40,10 @@ public class QuizUIManager : MonoBehaviour
         _questionPanelController.TogglePanel(true);
     }
 
+    /// <summary>
+    /// Event function that is called when Quiz manager selects new question. It will assign new question to question panel.
+    /// </summary>
+    /// <param name="quizQuestionMessage"></param>
     public void OnNewQuestion(EventMessage quizQuestionMessage)
     {
         QuizQuestion question = ((QuizQuestionMessage)quizQuestionMessage).Question;
@@ -43,6 +51,10 @@ public class QuizUIManager : MonoBehaviour
         _questionPanelController.AssignNewQuestion(question);
     }
 
+    /// <summary>
+    /// Event function that is called when quiz finishes. It will show end panel with end results and destroy questions panel.
+    /// </summary>
+    /// <param name="quizStatsMessage"></param>
     public void OnQuizFinished(EventMessage quizStatsMessage)
     {
         var statsMessage = (QuizStatsMessage)quizStatsMessage;
@@ -58,11 +70,17 @@ public class QuizUIManager : MonoBehaviour
         _quizEndPanelController.TogglePanel(true);
     }
 
+    /// <summary>
+    /// Function that will request new quiz from quiz manager
+    /// </summary>
     public void OnStartNewQuizButtonPressed()
     {
         _requestNewQuiz.RaiseEvent();
     }
 
+    /// <summary>
+    /// Loads Main Menu scene
+    /// </summary>
     public void OnBackToMainMenuButtonPressed()
     {
         _loadMainMenu.RaiseEvent();

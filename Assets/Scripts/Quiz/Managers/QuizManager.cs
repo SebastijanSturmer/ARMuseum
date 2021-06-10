@@ -27,12 +27,18 @@ public class QuizManager : MonoBehaviour
     private bool _loadingQuestionsCompleted;
 
 
-
+    /// <summary>
+    /// Event function that responds to new quiz request. It will start new quiz coroutine
+    /// </summary>
     public void OnNewQuizRequest()
     {
         StartCoroutine(StartQuiz());
     }
 
+    /// <summary>
+    /// Event function that is called when player selects an answer. It will check is that answer correct and if it is it will increase number of correct answers
+    /// </summary>
+    /// <param name="intMessage"></param>
     public void OnAnswerSelected(EventMessage intMessage)
     {
         int selectedAnswerIndex = ((IntMessage)intMessage).IntValue;
@@ -55,22 +61,28 @@ public class QuizManager : MonoBehaviour
         
 
 
-        if (_currentQuestionIndex + 1 > _numberOfQuestions - 1)
+        if (_currentQuestionIndex + 1 > _numberOfQuestions - 1) //If next question is bigger then number of questions (since its index we need to reduce it by 1) then call quiz finished
         {
             QuizFinished();
         }
-        else
+        else //else get new question
         {
             GetNewQuestion();
         }
         
     }
 
+    /// <summary>
+    /// Function that is called when quiz has come to an end. It will raise quiz finished event.
+    /// </summary>
     private void QuizFinished()
     {
         _quizFinished.RaiseEvent(new QuizStatsMessage(_numberOfQuestions, _numberOfCorrectAnswers));
     }
 
+    /// <summary>
+    /// Function that will get new question for quiz and raise new quiz question event with that question
+    /// </summary>
     private void GetNewQuestion()
     {
         _currentQuestionIndex++;
@@ -140,6 +152,10 @@ public class QuizManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Function that selects new questions from json file, raises event that quiz has started and gets first question.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartQuiz()
     {
         GetQuestionsFromJSON();

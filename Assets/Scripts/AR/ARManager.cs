@@ -29,12 +29,17 @@ public class ARManager : MonoBehaviour
     private bool _loadingAnimalsCompleted;
 
 
-
+    /// <summary>
+    /// Event function that will start AR
+    /// </summary>
     public void OnStartAR()
     {
         StartCoroutine(StartARCoroutine());
 
     }
+    /// <summary>
+    /// Event function that will stop AR and reset AR Session
+    /// </summary>
     public void OnExitAR()
     {
         for (int i = 0; i < _spawnedAnimals.Count; i++)
@@ -52,6 +57,27 @@ public class ARManager : MonoBehaviour
         Destroy(_trackedImageManager.gameObject);
     }
 
+    /// <summary>
+    /// Event function that is called when TrackedImageManager updates! Used for spawning,positioning and destroying objects
+    /// </summary>
+    /// <param name="args"></param>
+    public void OnImageRecognized(ARTrackedImagesChangedEventArgs args)
+    {
+        foreach (ARTrackedImage trackedImage in args.added)
+        {
+            StartCoroutine(SpawnObjectOnImage(trackedImage));
+        }
+        foreach (ARTrackedImage trackedImage in args.updated)
+        {
+            UpdateObject(trackedImage);
+        }
+        foreach (ARTrackedImage trackedImage in args.removed)
+        {
+            RemoveObjectFromImage(trackedImage);
+        }
+
+    }
+
     private IEnumerator StartARCoroutine()
     {
         GetAnimalsFromJSON();
@@ -65,6 +91,9 @@ public class ARManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Function that reads animals data from Animals Addressable asset defined in settings.
+    /// </summary>
     private void GetAnimalsFromJSON()
     {
         _loadingAnimalsCompleted = false;
@@ -93,26 +122,6 @@ public class ARManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Event function that is called when TrackedImageManager updates! Used for spawning,positioning and destroying objects
-    /// </summary>
-    /// <param name="args"></param>
-    public void OnImageRecognized(ARTrackedImagesChangedEventArgs args)
-    {
-        foreach (ARTrackedImage trackedImage in args.added)
-        {
-            StartCoroutine(SpawnObjectOnImage(trackedImage));
-        }
-        foreach (ARTrackedImage trackedImage in args.updated)
-        {
-            UpdateObject(trackedImage);
-        }
-        foreach (ARTrackedImage trackedImage in args.removed)
-        {
-            RemoveObjectFromImage(trackedImage);
-        }
-
-    }
 
     /// <summary>
     /// Coroutine that will spawn object depending on tracked image and it will animate its spawn (growing)
@@ -161,6 +170,10 @@ public class ARManager : MonoBehaviour
         FindAnimalDataFromImageAndCallAnimalDetectedEvent(trackedImage);
     }
 
+    /// <summary>
+    /// Function that updates object position and rotation aswell as call AnimalDetectedEvent if we started to track new animal.
+    /// </summary>
+    /// <param name="trackedImage"></param>
     private void UpdateObject(ARTrackedImage trackedImage)
     {
         //If this image is currently being tracked and it is different from last tracked image then find data and send to UI
@@ -181,23 +194,10 @@ public class ARManager : MonoBehaviour
         }
     }
 
-    private void FindAnimalDataFromImageAndCallAnimalDetectedEvent(ARTrackedImage trackedImage)
-    {
-        //Find animal in data
-        AnimalData detectedAnimal = null;
-        for (int i = 0; i < _animalsFromJSON.Count; i++)
-        {
-            if (_animalsFromJSON[i].AnimalNameEN == trackedImage.referenceImage.name) //We are searching by english name because pictures will be named on english
-            {
-                detectedAnimal = _animalsFromJSON[i];
-            }
-        }
-
-        //Raising event about detected animal
-        //Used for GUI info about that animal.
-        _arAnimalDetected.RaiseEvent(new AnimalDataMessage(detectedAnimal));
-    }
-
+    /// <summary>
+    /// Function that is called when tracked image was removed. It will destroy gameobject that was on that image and it will remove it from spawnedAnimals list
+    /// </summary>
+    /// <param name="trackedImage"></param>
     void RemoveObjectFromImage(ARTrackedImage trackedImage)
     {
         List<AnimalTrackedImageAndGameObject> spawnedAnimalsListCopy = new List<AnimalTrackedImageAndGameObject>();
@@ -217,6 +217,28 @@ public class ARManager : MonoBehaviour
 
         }
     }
+
+    /// <summary>
+    /// Function that finds animal in data that matches tracked image and raises event that we are looking at new animal. (UI)
+    /// </summary>
+    /// <param name="trackedImage"></param>
+    private void FindAnimalDataFromImageAndCallAnimalDetectedEvent(ARTrackedImage trackedImage)
+    {
+        //Find animal in data
+        AnimalData detectedAnimal = null;
+        for (int i = 0; i < _animalsFromJSON.Count; i++)
+        {
+            if (_animalsFromJSON[i].AnimalNameEN == trackedImage.referenceImage.name) //We are searching by english name because pictures will be named on english
+            {
+                detectedAnimal = _animalsFromJSON[i];
+            }
+        }
+
+        //Raising event about detected animal
+        //Used for GUI info about that animal.
+        _arAnimalDetected.RaiseEvent(new AnimalDataMessage(detectedAnimal));
+    }
+
 
     /// <summary>
     /// Debug function for looking at JSON format

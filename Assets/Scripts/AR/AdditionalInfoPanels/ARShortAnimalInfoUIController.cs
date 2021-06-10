@@ -8,6 +8,10 @@ public class ARShortAnimalInfoUIController : AnimatedBaseGUIController
     [SerializeField] private GameObject _textPrefab;
     private List<GameObject> _infoTabs = new List<GameObject>();
 
+    /// <summary>
+    /// Updates info about animal. Function will instantiate info tabs for each short info.
+    /// </summary>
+    /// <param name="shortInfoValues"></param>
     public void UpdateInfo(ShortInfoStruct[] shortInfoValues)
     {
         //First we remove all info tabs

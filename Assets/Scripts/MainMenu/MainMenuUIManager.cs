@@ -21,27 +21,43 @@ public class MainMenuUIManager : BaseGUIController
 
         CheckPlatformAndDisableARIfNecessary();
     }
-    
+
+    /// <summary>
+    /// Function that will call loadQuiz event
+    /// </summary>
     public void OnQuizButton()
     {
         _loadQuiz.RaiseEvent();
     }
+
+    /// <summary>
+    /// Function that will call loadAR event
+    /// </summary>
     public void OnARButton()
     {
         _loadAR.RaiseEvent();
     }
+
+    /// <summary>
+    /// Function that will open settings panel
+    /// </summary>
     public void OnSettingsButton()
     {
         TogglePanel(false); //Close main panel 
         _settingsUIController.TogglePanel(true); //and open settings panel
     }
 
+    /// <summary>
+    /// Function that will close application
+    /// </summary>
     public void OnQuitButton()
     {
         Application.Quit();
     }
 
-
+    /// <summary>
+    /// Function that will disable AR button if we are not on Android or IOS
+    /// </summary>
     private void CheckPlatformAndDisableARIfNecessary()
     {
         if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)

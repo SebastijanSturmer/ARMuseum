@@ -44,6 +44,10 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
         }
     }
 
+    /// <summary>
+    /// Sets animal data to new animal data and updates info about that animal.
+    /// </summary>
+    /// <param name="newAnimalData"></param>
     public void SetAnimalData(AnimalData newAnimalData)
     {
         _animalData = newAnimalData;
@@ -51,6 +55,10 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
         UpdateInfo();
     }
     
+    /// <summary>
+    /// Function that will toggle specific panel. If that panel is already opened then it will close.
+    /// </summary>
+    /// <param name="panel"></param>
     public void ToggleAdditionalInfoPanel(Enums.AnimalInfoPanels panel)
     {
         if (_activePanel == panel)
@@ -110,6 +118,9 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
         _closePanelButton.onClick.AddListener(delegate { TogglePanel(false,false,false); });
     }
 
+    /// <summary>
+    /// Updates info about that animal for all additional panels aswell as animal name text
+    /// </summary>
     private void UpdateInfo()
     {
         switch (LocalizationManager.Instance.Language)

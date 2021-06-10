@@ -23,13 +23,17 @@ public class LocalizationManager : MonoBehaviour
 
     private void Start()
     {
-        _localizationData.Init();
+        _localizationData.Init(); //initializing localization data will copy contents from list of language data with keys to dictionary
 
         SetLanguage(new LanguageMessage(_localizationData.CurrentLanguage)); //Debugging, Selecting language from selected language in inspector
 
         _firstTextUpdateFinished = true;
     }
 
+    /// <summary>
+    /// Function that is called by LocalizeText script that will be added to TextsToUpdate and if it is added after Start then it will update its text
+    /// </summary>
+    /// <param name="newText"></param>
     public void AddNewText(LocalizeText newText)
     {
         _textsToUpdate.Add(newText);
@@ -38,6 +42,10 @@ public class LocalizationManager : MonoBehaviour
             UpdateLanguageToText(newText);
     }
 
+    /// <summary>
+    /// Function that removes text from TextsToUpdate
+    /// </summary>
+    /// <param name="newText"></param>
     public void RemoveText(LocalizeText newText)
     {
         if (_textsToUpdate.Contains(newText))
@@ -57,6 +65,9 @@ public class LocalizationManager : MonoBehaviour
         UpdateLanguage();
     }
 
+    /// <summary>
+    /// Function that goes trought all texts in texts to update and updates its languages
+    /// </summary>
     private void UpdateLanguage()
     {
         for (int i = 0; i < _textsToUpdate.Count; i++)
@@ -66,6 +77,10 @@ public class LocalizationManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function that checks for key in LocalizationData for LocalizeText and updates its value depending on App language
+    /// </summary>
+    /// <param name="textToUpdate"></param>
     private void UpdateLanguageToText(LocalizeText textToUpdate)
     {
         if (!_localizationData.LanguagesForValue.ContainsKey(textToUpdate.Key))//If we dont have a key stored in localization data then skip this text
