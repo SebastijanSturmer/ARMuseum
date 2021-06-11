@@ -10,6 +10,7 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
     
     [Header("Internal references")]
     [SerializeField] private TextMeshProUGUI _animalName;
+    [SerializeField] private Image _animalImage;
     [SerializeField] private Button _openBasicInfoButton;
     [SerializeField] private Button _openShortInfoButton;
     [SerializeField] private Button _openMapInfoButton;
@@ -34,14 +35,15 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
         //If we are opening info panel then we should have all additional info panels closed and we should activate/deactivate close button!
         if (shouldDisplay)
         {
-            _closePanelButton.gameObject.SetActive(true);
             ForceCloseAdditionalInfoPanels();
         }
         else
         {
-            _closePanelButton.gameObject.SetActive(false);
             CloseAdditionalInfoPanels(); //If we are closing panel then we should also close additional panels
         }
+
+        _closePanelButton.gameObject.SetActive(shouldDisplay);
+        _animalImage.gameObject.SetActive(shouldDisplay);
     }
 
     /// <summary>
@@ -112,12 +114,7 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
 
         _activePanel = Enums.AnimalInfoPanels.None;
     }
-
-    public void OnAnimalMapAndImageRecieved()
-    {
-
-    }
-
+    
     private void AddOnClickEventsToButtons()
     {
         _openBasicInfoButton.onClick.AddListener(delegate { ToggleAdditionalInfoPanel(Enums.AnimalInfoPanels.BasicInfo); });
@@ -137,16 +134,18 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
                 _animalName.text = _animalData.AnimalNameEN;
                 _arBasicAnimalInfoUIController.UpdateInfo(_animalData.BasicInfoEN);
                 _arShortAnimalInfoUIController.UpdateInfo(_animalData.ShortInfoEN);
-                _arAnimalMapInfoUIController.UpdateInfo(map);
+                
                 break;
             case Enums.Language.Croatian:
                 _animalName.text = _animalData.AnimalNameHR;
                 _arBasicAnimalInfoUIController.UpdateInfo(_animalData.BasicInfoHR);
                 _arShortAnimalInfoUIController.UpdateInfo(_animalData.ShortInfoHR);
-                _arAnimalMapInfoUIController.UpdateInfo(map);
                 break;
         }
-        
+
+        _animalImage.sprite = image;
+        _arAnimalMapInfoUIController.UpdateInfo(map);
+
     }
 
 }

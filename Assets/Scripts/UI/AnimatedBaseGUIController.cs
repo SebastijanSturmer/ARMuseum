@@ -47,8 +47,10 @@ public class AnimatedBaseGUIController : BaseGUIController
     /// <returns></returns>
     private IEnumerator AnimateOpenClosePanel(bool shouldDisplay, bool shouldBypassAnimation, bool shouldDeactivatePanelAfterAnimation)
     {
-        Vector3 targetPosition;
-        Vector3 startPosition;
+        Vector2 targetPosition;
+        Vector2 startPosition;
+        RectTransform panelTransform = _mainPanel.GetComponent<RectTransform>();
+
         //Turn on panel before animation if we are opening it
         if (shouldDisplay)
             _mainPanel.SetActive(true);
@@ -60,12 +62,12 @@ public class AnimatedBaseGUIController : BaseGUIController
             targetPosition = _closedPosition;
 
         //Set start position to current position
-        startPosition = _mainPanel.transform.localPosition;
+        startPosition = panelTransform.anchoredPosition;
 
         //If we are bypassing animation just set it to target
         if (shouldBypassAnimation)
         {
-            _mainPanel.transform.localPosition = targetPosition;
+            panelTransform.anchoredPosition = targetPosition;
         }
         else
         {
@@ -73,14 +75,14 @@ public class AnimatedBaseGUIController : BaseGUIController
             float lerpValue = 0;
             while (true)
             {
-                if (_mainPanel.transform.localPosition == targetPosition)
+                if (panelTransform.anchoredPosition == targetPosition)
                     break;
 
                 lerpValue += Time.fixedDeltaTime * _animationSpeed;
                 if (lerpValue > 1)
                     lerpValue = 1;
 
-                _mainPanel.transform.localPosition = Vector3.Lerp(startPosition, targetPosition, lerpValue);
+                panelTransform.anchoredPosition = Vector3.Lerp(startPosition, targetPosition, lerpValue);
 
                 yield return new WaitForFixedUpdate();
             }

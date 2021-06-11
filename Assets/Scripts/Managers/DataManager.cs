@@ -100,7 +100,7 @@ public class DataManager : MonoBehaviour
 
         if (imageRef == null || mapRef == null)
         {
-            Debug.LogError("DataManager : Image reference or map reference is null!");
+            Debug.LogError("DataManager : Image reference or map reference for " + name + " is null!");
             yield break;
         }
 
