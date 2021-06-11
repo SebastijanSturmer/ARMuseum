@@ -14,6 +14,7 @@ public class ARManager : MonoBehaviour
     [SerializeField] private GameObject _trackedImageManagerPrefab;
 
     [Header("Events")]
+    [SerializeField] private ScriptableEvent _arStarted;
     [SerializeField] private ScriptableEvent _arAnimalFocused;
 
     private List<AnimalData> _animals;
@@ -112,6 +113,8 @@ public class ARManager : MonoBehaviour
         _arSession = _trackedImageManager.GetComponentInChildren<ARSession>();
 
         _trackedImageManager.trackedImagesChanged += OnImageRecognized;
+
+        _arStarted.RaiseEvent();
         
     }
 

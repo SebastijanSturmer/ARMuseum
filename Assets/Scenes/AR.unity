@@ -1653,6 +1653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnSpeed: 2
   _trackedImageManagerPrefab: {fileID: 5458815750851446907, guid: 44d467037ed47c44392af5e0e32f34f1, type: 3}
+  _arStarted: {fileID: 11400000, guid: 63b2c0f0fdc47ba4fb2cb0c1cc3ad219, type: 2}
   _arAnimalFocused: {fileID: 11400000, guid: b2ea1b9782fc6044ca2531968e29ced8, type: 2}
 --- !u!1 &985940272
 GameObject:
@@ -2017,6 +2018,25 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - _scriptableEvent: {fileID: 11400000, guid: 63b2c0f0fdc47ba4fb2cb0c1cc3ad219, type: 2}
+    _unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1111097674}
+          m_TargetAssemblyTypeName: ARUIManager, Assembly-CSharp
+          m_MethodName: OnARStarted
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    _messageUnityEvent:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &1149944941
 GameObject:
   m_ObjectHideFlags: 0

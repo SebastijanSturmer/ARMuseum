@@ -12,8 +12,8 @@ public class ARMainMenuPanelController : BaseGUIController
     public void OnStartARButtonPressed()
     {
         _startAR.RaiseEvent();
-        _mainPanel.SetActive(false);
     }
+
 
     public void OnExitARButtonPressed()
     {

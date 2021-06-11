@@ -31,6 +31,14 @@ public class ARUIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Event function that is triggered when AR managers finished loading and AR starts
+    /// </summary>
+    public void OnARStarted()
+    {
+        _arMainMenuPanelController.TogglePanel(false);
+    }
+
+    /// <summary>
     /// Event function that responds to animal focused event from AR Manager. It will send info data about that animal to info panel
     /// </summary>
     /// <param name="animalDataMessage"></param>
