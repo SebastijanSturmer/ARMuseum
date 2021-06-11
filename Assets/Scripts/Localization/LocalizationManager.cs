@@ -25,6 +25,9 @@ public class LocalizationManager : MonoBehaviour
     {
         _localizationData.Init(); //initializing localization data will copy contents from list of language data with keys to dictionary
 
+        int languageFromSave = PlayerPrefs.GetInt("Language");
+        _localizationData.SetLanguage((Enums.Language)languageFromSave);
+
         SetLanguage(new LanguageMessage(_localizationData.CurrentLanguage)); //Debugging, Selecting language from selected language in inspector
 
         _firstTextUpdateFinished = true;
@@ -62,6 +65,9 @@ public class LocalizationManager : MonoBehaviour
     {
         _language = ((LanguageMessage)languageMessage).Language;
         _localizationData.SetLanguage(_language);
+
+        PlayerPrefs.SetInt("Language", (int)_language);
+
         UpdateLanguage();
     }
 
