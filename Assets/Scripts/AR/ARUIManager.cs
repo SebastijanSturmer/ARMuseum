@@ -31,15 +31,23 @@ public class ARUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Event function that responds to animal detected from AR Manager. It will send info data about that animal to info panel
+    /// Event function that responds to animal focused event from AR Manager. It will send info data about that animal to info panel
     /// </summary>
     /// <param name="animalDataMessage"></param>
-    public void OnAnimalDetected(EventMessage animalDataMessage)
+    public void OnAnimalFocused(EventMessage animalDataMessage)
     {
         _currentAnimal = ((AnimalDataMessage)animalDataMessage).AnimalData;
 
-        _arAnimalInfoPanelController.SetAnimalData(_currentAnimal);
+        DataManager.Instance.RequestAnimalImageAndMapByName(_currentAnimal.AnimalNameEN);
 
+    }
+
+    public void OnAnimalImageAndMapRecieved(EventMessage message)
+    {
+        AnimalImageAndMapMessage imageAndMapMessage = (AnimalImageAndMapMessage)message;
+
+        _arAnimalInfoPanelController.SetAnimalData(_currentAnimal);
+        _arAnimalInfoPanelController.UpdateInfo(imageAndMapMessage.Image, imageAndMapMessage.Map);
         _arAnimalInfoPanelController.TogglePanel(true);
     }
 

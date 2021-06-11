@@ -2186,6 +2186,25 @@ MonoBehaviour:
     _messageUnityEvent:
       m_PersistentCalls:
         m_Calls: []
+  - _scriptableEvent: {fileID: 11400000, guid: 0164011d08961d74aae1f6b4e86c163e, type: 2}
+    _unityEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    _messageUnityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1868671524}
+          m_TargetAssemblyTypeName: QuizManager, Assembly-CSharp
+          m_MethodName: OnListOfQuestionsReceived
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &1868671524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2199,10 +2218,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _numberOfQuestions: 10
-  _jsonQuestions:
-    m_AssetGUID: c66749bfa7bd80a4889caf59ede1b0db
-    m_SubObjectName: 
-    m_SubObjectType: 
   _quizStarted: {fileID: 11400000, guid: bd10a7b2ce3340e4582e065391226479, type: 2}
   _quizFinished: {fileID: 11400000, guid: c0b12c0740e2c26468fd67027a742e6a, type: 2}
   _newQuizQuestion: {fileID: 11400000, guid: f1befd823f3138b469924c0857f92153, type: 2}

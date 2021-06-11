@@ -4,22 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class ARManager : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float _spawnSpeed;
-    [SerializeField] private List<AnimalNameAndPrefab> _availableAnimalPrefabs;
-    [SerializeField] private List<AnimalData> _animalsFromJSON;
 
-    [Header("References")]
+    [Header("Prefabs")]
     [SerializeField] private GameObject _trackedImageManagerPrefab;
-    [SerializeField] private AssetReference _animalsJSON;
 
     [Header("Events")]
-    [SerializeField] private ScriptableEvent _arAnimalDetected;
+    [SerializeField] private ScriptableEvent _arAnimalFocused;
+
+    private List<AnimalData> _animals;
 
     private ARTrackedImageManager _trackedImageManager;
     private ARSession _arSession;
@@ -58,6 +55,27 @@ public class ARManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Event function that is called by InputManager when user clicks on 3D animal object
+    /// </summary>
+    /// <param name="animalDataMessage"></param>
+    public void OnAnimalClicked(EventMessage animalDataMessage)
+    {
+        AnimalData animalData = ((AnimalDataMessage)animalDataMessage).AnimalData;
+
+        _arAnimalFocused.RaiseEvent(new AnimalDataMessage(animalData));
+    }
+
+    /// <summary>
+    /// Event function that receives list of animal data from data manager when they are loaded from json file
+    /// </summary>
+    /// <param name="listOfAnimalDataMessage"></param>
+    public void OnAnimalListReceived(EventMessage listOfAnimalDataMessage)
+    {
+        _animals = ((ListOfAnimalDataMessage)listOfAnimalDataMessage).AnimalDataList;
+        _loadingAnimalsCompleted = true;
+    }
+
+    /// <summary>
     /// Event function that is called when TrackedImageManager updates! Used for spawning,positioning and destroying objects
     /// </summary>
     /// <param name="args"></param>
@@ -78,9 +96,15 @@ public class ARManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Coroutine that requests animals from json from DataManager, loads them and starts AR
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartARCoroutine()
     {
-        GetAnimalsFromJSON();
+        _loadingAnimalsCompleted = false;
+
+        DataManager.Instance.RequestAnimalsFromJSON();
 
         yield return new WaitUntil(() => _loadingAnimalsCompleted == true);
 
@@ -92,51 +116,19 @@ public class ARManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Function that reads animals data from Animals Addressable asset defined in settings.
-    /// </summary>
-    private void GetAnimalsFromJSON()
-    {
-        _loadingAnimalsCompleted = false;
-
-        _animalsFromJSON = new List<AnimalData>();
-
-        if (!_animalsJSON.RuntimeKeyIsValid())
-        {
-            Debug.LogError("QuizManager : Json Questions runtime key is not valid!");
-            return;
-        }
-
-
-        _animalsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
-        {
-            ListOfAnimalData animals = JsonUtility.FromJson<ListOfAnimalData>(handle.Result.text);
-            for (int i = 0; i < animals.Animals.Count; i++)
-            {
-                _animalsFromJSON.Add(animals.Animals[i]);
-            }
-
-            _loadingAnimalsCompleted = true;
-
-            Addressables.Release(handle);
-        };
-
-    }
-
-
-    /// <summary>
     /// Coroutine that will spawn object depending on tracked image and it will animate its spawn (growing)
     /// </summary>
     /// <param name="trackedImage"></param>
     /// <returns></returns>
-    IEnumerator SpawnObjectOnImage(ARTrackedImage trackedImage)
+    private IEnumerator SpawnObjectOnImage(ARTrackedImage trackedImage)
     {
         GameObject prefabToSpawn = null;
         //Finding prefab from list
-        for (int i = 0; i < _availableAnimalPrefabs.Count; i++)
+        for (int i = 0; i < DataManager.Instance.AvailableAnimalPrefabs.Count; i++)
         {
-            if (_availableAnimalPrefabs[i].AnimalName == trackedImage.referenceImage.name)
+            if (DataManager.Instance.AvailableAnimalPrefabs[i].AnimalName == trackedImage.referenceImage.name)
             {
-                prefabToSpawn = _availableAnimalPrefabs[i].AnimalPrefab;
+                prefabToSpawn = DataManager.Instance.AvailableAnimalPrefabs[i].AnimalPrefab;
                 break;
             }
         }
@@ -148,6 +140,9 @@ public class ARManager : MonoBehaviour
         GameObject spawnedObject = Instantiate(prefabToSpawn, trackedImage.transform.position, trackedImage.transform.rotation, this.gameObject.transform);
         spawnedObject.transform.localScale = Vector3.zero;
         spawnedObject.name = trackedImage.referenceImage.name;
+
+        //Adding AnimalController and adding animal data to that controller
+        spawnedObject.GetComponent<ARAnimalController>().SetAnimalData(FindAnimalDataByName(trackedImage.referenceImage.name));
 
 
         _spawnedAnimals.Add(new AnimalTrackedImageAndGameObject(trackedImage, spawnedObject));
@@ -167,7 +162,7 @@ public class ARManager : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        FindAnimalDataFromImageAndCallAnimalDetectedEvent(trackedImage);
+        FindAnimalDataAndCallAnimalFocusedEvent(trackedImage.referenceImage.name);
     }
 
     /// <summary>
@@ -179,7 +174,7 @@ public class ARManager : MonoBehaviour
         //If this image is currently being tracked and it is different from last tracked image then find data and send to UI
         if (trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Tracking && _lastTrackedImage != trackedImage)
         { 
-            FindAnimalDataFromImageAndCallAnimalDetectedEvent(trackedImage);
+            FindAnimalDataAndCallAnimalFocusedEvent(trackedImage.referenceImage.name);
             _lastTrackedImage = trackedImage;
         }
 
@@ -217,31 +212,39 @@ public class ARManager : MonoBehaviour
 
         }
     }
-
+    
     /// <summary>
-    /// Function that finds animal in data that matches tracked image and raises event that we are looking at new animal. (UI)
+    /// Function that finds animal in data by name and calls animal focused event
     /// </summary>
-    /// <param name="trackedImage"></param>
-    private void FindAnimalDataFromImageAndCallAnimalDetectedEvent(ARTrackedImage trackedImage)
+    /// <param name="name">Animal name</param>
+    private void FindAnimalDataAndCallAnimalFocusedEvent(string name)
+    {
+        AnimalData animalData = FindAnimalDataByName(name);
+
+        if (animalData != null)
+        {
+            //Raising event about detected animal
+            //Used for GUI info about that animal.
+            _arAnimalFocused.RaiseEvent(new AnimalDataMessage(animalData));
+        }
+    }
+
+    private AnimalData FindAnimalDataByName(string name)
     {
         //Find animal in data
-        AnimalData detectedAnimal = null;
-        for (int i = 0; i < _animalsFromJSON.Count; i++)
+        for (int i = 0; i < _animals.Count; i++)
         {
-            if (_animalsFromJSON[i].AnimalNameEN == trackedImage.referenceImage.name) //We are searching by english name because pictures will be named on english
+            if (_animals[i].AnimalNameEN == name) //We are searching by english name because pictures will be named on english
             {
-                detectedAnimal = _animalsFromJSON[i];
+                return(_animals[i]);
             }
         }
-
-        //Raising event about detected animal
-        //Used for GUI info about that animal.
-        _arAnimalDetected.RaiseEvent(new AnimalDataMessage(detectedAnimal));
+        return null;
     }
 
 
     /// <summary>
-    /// Debug function for looking at JSON format
+    /// Debug function for creating JSON file
     /// </summary>
     void GenerateAnimals()
     {
@@ -281,16 +284,6 @@ public class ARManager : MonoBehaviour
         string json = JsonUtility.ToJson(listOfAnimals);
         Debug.Log(json);
     }
-}
-
-/// <summary>
-/// Struct used for holding prefabs with names as identification
-/// </summary>
-[Serializable]
-public struct AnimalNameAndPrefab
-{
-    public string AnimalName;
-    public GameObject AnimalPrefab;
 }
 
 public struct AnimalTrackedImageAndGameObject

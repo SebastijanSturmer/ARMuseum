@@ -11,16 +11,12 @@ public class QuizManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int _numberOfQuestions;
 
-
-    [Header("References")]
-    [SerializeField] private AssetReference _jsonQuestions;
-
     [Header("Events")]
     [SerializeField] private ScriptableEvent _quizStarted;
     [SerializeField] private ScriptableEvent _quizFinished;
     [SerializeField] private ScriptableEvent _newQuizQuestion;
 
-    private List<QuizQuestion> _selectedQuestions;
+    private List<QuizQuestion> _questions;
     private int _currentQuestionIndex = -1;
     private int _numberOfCorrectAnswers = 0;
 
@@ -36,6 +32,16 @@ public class QuizManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Event function that receives list of quiz questions from data manager when they are loaded from json file and selected randomly
+    /// </summary>
+    /// <param name="listOfAnimalDataMessage"></param>
+    public void OnListOfQuestionsReceived(EventMessage listOfQuizQuestionsMessage)
+    {
+        _questions = ((ListOfQuizQuestionsMessage)listOfQuizQuestionsMessage).QuizQuestionList;
+        _loadingQuestionsCompleted = true;
+    }
+
+    /// <summary>
     /// Event function that is called when player selects an answer. It will check is that answer correct and if it is it will increase number of correct answers
     /// </summary>
     /// <param name="intMessage"></param>
@@ -46,13 +52,13 @@ public class QuizManager : MonoBehaviour
         switch(LocalizationManager.Instance.Language)
         {
             case Enums.Language.English:
-                if (_selectedQuestions[_currentQuestionIndex].CorrectAnswerEN == _selectedQuestions[_currentQuestionIndex].AnswersEN[selectedAnswerIndex])
+                if (_questions[_currentQuestionIndex].CorrectAnswerEN == _questions[_currentQuestionIndex].AnswersEN[selectedAnswerIndex])
                 {
                     _numberOfCorrectAnswers++;
                 }
                 break;
             case Enums.Language.Croatian:
-                if (_selectedQuestions[_currentQuestionIndex].CorrectAnswerHR == _selectedQuestions[_currentQuestionIndex].AnswersHR[selectedAnswerIndex])
+                if (_questions[_currentQuestionIndex].CorrectAnswerHR == _questions[_currentQuestionIndex].AnswersHR[selectedAnswerIndex])
                 {
                     _numberOfCorrectAnswers++;
                 }
@@ -86,70 +92,7 @@ public class QuizManager : MonoBehaviour
     private void GetNewQuestion()
     {
         _currentQuestionIndex++;
-        _newQuizQuestion.RaiseEvent(new QuizQuestionMessage(_selectedQuestions[_currentQuestionIndex]));
-    }
-
-    /// <summary>
-    /// Reads questions from json and randomly assigns questions that will be used in quiz
-    /// </summary>
-    private void GetQuestionsFromJSON()
-    {
-        _loadingQuestionsCompleted = false;
-
-        _selectedQuestions = new List<QuizQuestion>();
-        _currentQuestionIndex = -1;
-        _numberOfCorrectAnswers = 0;
-
-        if (!_jsonQuestions.RuntimeKeyIsValid())
-        {
-            Debug.LogError("QuizManager : Json Questions runtime key is not valid!");
-            return;
-        }
-
-
-        _jsonQuestions.LoadAssetAsync<TextAsset>().Completed += handle =>
-        {
-            ListOfQuizQuestions questions = JsonUtility.FromJson<ListOfQuizQuestions>(handle.Result.text);
-            
-
-            int tryAttempts = 0;
-            while (true)
-            {
-                if (tryAttempts > 100) //If we tried 100 times to get random question but failed lets just go by order and assign rest of them
-                {
-                    for (int i = 0; i < questions.Questions.Count; i++)
-                    {
-                        if (_selectedQuestions.Contains(questions.Questions[i])) //If we already have that question then dont add it
-                            continue;
-
-                        if (_selectedQuestions.Count >= _numberOfQuestions) //If we filled all the questions break!
-                            break;
-
-                        _selectedQuestions.Add(questions.Questions[i]);
-                    }
-
-                    break;
-                }
-
-                QuizQuestion randomSelectedQuestion = questions.Questions[UnityEngine.Random.Range(0, questions.Questions.Count)];
-                if (_selectedQuestions.Contains(randomSelectedQuestion)) //If we already have that question then dont add it
-                {
-                    tryAttempts++;
-                    continue;
-                }
-
-                if (_selectedQuestions.Count >= _numberOfQuestions) //If we filled all the questions break!
-                    break;
-
-                _selectedQuestions.Add(randomSelectedQuestion);
-
-            }
-
-            _loadingQuestionsCompleted = true;
-
-            Addressables.Release(handle);
-        };
-
+        _newQuizQuestion.RaiseEvent(new QuizQuestionMessage(_questions[_currentQuestionIndex]));
     }
 
     /// <summary>
@@ -158,7 +101,16 @@ public class QuizManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator StartQuiz()
     {
-        GetQuestionsFromJSON();
+        //Reseting variables
+        _loadingQuestionsCompleted = false;
+
+        _questions = new List<QuizQuestion>();
+        _currentQuestionIndex = -1;
+        _numberOfCorrectAnswers = 0;
+
+        //Requsting quiz questions
+        DataManager.Instance.RequestRandomQuestionsFromJSON(_numberOfQuestions);
+
         yield return new WaitUntil(() => _loadingQuestionsCompleted == true);
 
         _quizStarted.RaiseEvent();
@@ -167,7 +119,7 @@ public class QuizManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Debug function for looking at JSON format
+    /// Debug function for creating JSON file
     /// </summary>
     void GenerateQuestion()
     {

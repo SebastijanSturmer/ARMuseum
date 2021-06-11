@@ -202,7 +202,7 @@ public class QuizStatsMessage : EventMessage
 }
 
 /// <summary>
-/// Event message that holds question stats data.
+/// Event message that holds animal data.
 /// </summary>
 public class AnimalDataMessage : EventMessage
 {
@@ -214,3 +214,43 @@ public class AnimalDataMessage : EventMessage
     }
 }
 
+/// <summary>
+/// Event message that holds list of animal data.
+/// </summary>
+public class ListOfAnimalDataMessage : EventMessage
+{
+    public List<AnimalData> AnimalDataList;
+
+    public ListOfAnimalDataMessage(List<AnimalData> animalData)
+    {
+        AnimalDataList = animalData;
+    }
+}
+
+/// <summary>
+/// Event message that holds question stats data.
+/// </summary>
+public class ListOfQuizQuestionsMessage : EventMessage
+{
+    public List<QuizQuestion> QuizQuestionList;
+
+    public ListOfQuizQuestionsMessage(List<QuizQuestion> quizQuestionList)
+    {
+        QuizQuestionList = quizQuestionList;
+    }
+}
+
+/// <summary>
+/// Event message that holds animal image and map sprites.
+/// </summary>
+public class AnimalImageAndMapMessage : EventMessage
+{
+    public Sprite Image;
+    public Sprite Map;
+
+    public AnimalImageAndMapMessage(Sprite image, Sprite map)
+    {
+        Image = image;
+        Map = map;
+    }
+}

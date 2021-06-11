@@ -19,19 +19,19 @@ MonoBehaviour:
       m_GuidLow: 5377325242710978938
       m_GuidHigh: 5823506495627771063
     m_SerializedTextureGuid:
-      m_GuidLow: 17988512154315670415
-      m_GuidHigh: 14888622566617106538
-    m_Size: {x: 0.1, y: 0.15}
+      m_GuidLow: 12584317552559639313
+      m_GuidHigh: 1100500764378085610
+    m_Size: {x: 0.12, y: 0.15732217}
     m_SpecifySize: 1
-    m_Name: Penguin
+    m_Name: Brachiosaurus
     m_Texture: {fileID: 0}
   - m_SerializedGuid:
-      m_GuidLow: 5370200824214504827
-      m_GuidHigh: 15550843170083285434
+      m_GuidLow: 5685658397918225501
+      m_GuidHigh: 191289022824328631
     m_SerializedTextureGuid:
-      m_GuidLow: 16439311395331075419
-      m_GuidHigh: 2403559391703885659
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
-    m_Name: Dog
+      m_GuidLow: 2788957340242577425
+      m_GuidHigh: 2197344931663384474
+    m_Size: {x: 0.15, y: 0.15}
+    m_SpecifySize: 1
+    m_Name: Tyrannosaurus
     m_Texture: {fileID: 0}

@@ -1,67 +1,110 @@
 ﻿{
     "Animals": [
         {
-            "AnimalNameEN": "Penguin",
-            "AnimalNameHR": "Pingvin",
+            "AnimalNameEN": "Tyrannosaurus",
+            "AnimalNameHR": "Tiranosaur",
 
-            "BasicInfoEN": "Penguins live on Antartica. They like cold!",
-            "BasicInfoHR": "Pingvini žive na Antartici. Vole hladnoću",
+            "BasicInfoEN": "Tyrannosaurus are prehistoric carnivorous dinosaurs. They originated in the Cretaceous era and existed until the extinction of the dinosaurs 65,000,000 years ago.",
+            "BasicInfoHR": "Tiranosauri je prapovijesni dinosauri mesožderi. Nastali su u doba krede i postojali do nestanka dinosaura prije 65 000 000 godina.",
 
             "ShortInfoEN": [
                 {
                     "Key": "Climate",
-                    "Value": "Cold"
+                    "Value": "Humid, semi-tropical"
                 },
                 {
                     "Key": "Food",
                     "Value": "Meat"
                 },
                 {
+                    "Key": "Lenght",
+                    "Value": "12.3–12.8 meters (40–42 ft)"
+                },
+                {
                     "Key": "Height",
-                    "Value": "1.5m"
+                    "Value": "3.66 meters (12 ft)"
+                },
+                {
+                    "Key": "Weight",
+                    "Value": "13 tons"
                 }
+
             ],
 
             "ShortInfoHR": [
                 {
                     "Key": "Klima",
-                    "Value": "Hladna"
+                    "Value": "vlažno, polu-tropsko okruženje"
                 },
                 {
                     "Key": "Hrana",
                     "Value": "Meso"
                 },
                 {
+                    "Key": "Dužina",
+                    "Value": "12.3–12.8 metra"
+                },
+                {
                     "Key": "Visina",
-                    "Value": "1.5m"
+                    "Value": "3.66 metra"
+                },
+                {
+                    "Key": "Težina",
+                    "Value": "13 tona"
                 }
             ]
         },
         {
-            "AnimalNameEN": "Dog",
-            "AnimalNameHR": "Pas",
+            "AnimalNameEN": "Brachiosaurus",
+            "AnimalNameHR": "Brahiosaur",
 
-            "BasicInfoEN": "Dogs are humans best friend",
-            "BasicInfoHR": "Pas je čovjekov najbolji prijatelj",
+            "BasicInfoEN": "Brachiosaurus is a genus of sauropod dinosaur that lived in North America during the Late Jurassic, about 154–153 million years ago.",
+            "BasicInfoHR": "Brachiosaurus je rod sauropod dinosaura koji je živio u Sjevernoj Americi za vrijeme kasne jure, prije otprilike 154–153 milijuna godina.",
 
             "ShortInfoEN": [
                 {
                     "Key": "Climate",
-                    "Value": "Any"
+                    "Value": "Semi Arid"
                 },
                 {
                     "Key": "Food",
-                    "Value": "Meat"
+                    "Value": "Foliage"
+                },
+                {
+                    "Key": "Lenght",
+                    "Value": "20–21 meters (66–69 ft)"
+                },
+                {
+                    "Key": "Height",
+                    "Value": "12–13 meters (39–43 ft)"
+                },
+                {
+                    "Key": "Weight",
+                    "Value": "28-58 tons"
                 }
+
             ],
+
             "ShortInfoHR": [
                 {
                     "Key": "Klima",
-                    "Value": "Bilo koja"
+                    "Value": "Polu suha"
                 },
                 {
                     "Key": "Hrana",
-                    "Value": "Meso"
+                    "Value": "Lišće"
+                },
+                {
+                    "Key": "Dužina",
+                    "Value": "20–21 metra"
+                },
+                {
+                    "Key": "Visina",
+                    "Value": "12–13 metra"
+                },
+                {
+                    "Key": "Težina",
+                    "Value": "28-58 tona"
                 }
             ]
         }

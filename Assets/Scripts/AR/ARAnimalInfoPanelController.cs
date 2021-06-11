@@ -51,8 +51,6 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
     public void SetAnimalData(AnimalData newAnimalData)
     {
         _animalData = newAnimalData;
-
-        UpdateInfo();
     }
     
     /// <summary>
@@ -61,6 +59,7 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
     /// <param name="panel"></param>
     public void ToggleAdditionalInfoPanel(Enums.AnimalInfoPanels panel)
     {
+        //If this panel is active one then close it!
         if (_activePanel == panel)
         {
             CloseAdditionalInfoPanels();
@@ -98,6 +97,8 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
         _arBasicAnimalInfoUIController.TogglePanel(false, false);
         _arShortAnimalInfoUIController.TogglePanel(false, false);
         _arAnimalMapInfoUIController.TogglePanel(false, false);
+
+        _activePanel = Enums.AnimalInfoPanels.None;
     }
 
     /// <summary>
@@ -108,6 +109,13 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
         _arBasicAnimalInfoUIController.TogglePanel(false, true);
         _arShortAnimalInfoUIController.TogglePanel(false, true);
         _arAnimalMapInfoUIController.TogglePanel(false, true);
+
+        _activePanel = Enums.AnimalInfoPanels.None;
+    }
+
+    public void OnAnimalMapAndImageRecieved()
+    {
+
     }
 
     private void AddOnClickEventsToButtons()
@@ -119,9 +127,9 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
     }
 
     /// <summary>
-    /// Updates info about that animal for all additional panels aswell as animal name text
+    /// Updates info about that animal for all additional panels aswell as animal name text. Requeires additional image and map for that animal
     /// </summary>
-    private void UpdateInfo()
+    public void UpdateInfo(Sprite image, Sprite map)
     {
         switch (LocalizationManager.Instance.Language)
         {
@@ -129,13 +137,13 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
                 _animalName.text = _animalData.AnimalNameEN;
                 _arBasicAnimalInfoUIController.UpdateInfo(_animalData.BasicInfoEN);
                 _arShortAnimalInfoUIController.UpdateInfo(_animalData.ShortInfoEN);
-                _arAnimalMapInfoUIController.UpdateInfo();
+                _arAnimalMapInfoUIController.UpdateInfo(map);
                 break;
             case Enums.Language.Croatian:
                 _animalName.text = _animalData.AnimalNameHR;
                 _arBasicAnimalInfoUIController.UpdateInfo(_animalData.BasicInfoHR);
                 _arShortAnimalInfoUIController.UpdateInfo(_animalData.ShortInfoHR);
-                _arAnimalMapInfoUIController.UpdateInfo();
+                _arAnimalMapInfoUIController.UpdateInfo(map);
                 break;
         }
         

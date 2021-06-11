@@ -21,10 +21,34 @@ MonoBehaviour:
     m_Address: Quiz/questions
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 4900000, guid: c66749bfa7bd80a4889caf59ede1b0db, type: 3}
-    m_TargetAsset: {fileID: 4900000, guid: c66749bfa7bd80a4889caf59ede1b0db, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: f73e19d37bfe322409cfbb5bcf67f992
     m_Address: AR/animals.json
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: a6e088115dec26b49a0fcdc492897e1e
+    m_Address: AnimalImages/Tyrannosaurus.jpg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: b507cb117a23aea4ea38cd4f9dc3450f
+    m_Address: AnimalImages/Brachiosaurus.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: afb1dedfb51900e45aa6648dee54752a
+    m_Address: Maps/TyrannosaurusMap.jpg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 8d8f42abcf352f74694b4bb4e1ec7485
+    m_Address: Maps/BranchiosaurusMap.jpg
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ARShortAnimalInfoUIController : AnimatedBaseGUIController
 {
+    [SerializeField] private Transform _tabsPlaceholder;
     [SerializeField] private GameObject _textPrefab;
     private List<GameObject> _infoTabs = new List<GameObject>();
 
@@ -28,7 +29,7 @@ public class ARShortAnimalInfoUIController : AnimatedBaseGUIController
             //Show only info with keys and values!
             if (shortInfoValue.Key != "" && shortInfoValue.Value != "")
             {
-                var textObj = Instantiate(_textPrefab, _mainPanel.transform);
+                var textObj = Instantiate(_textPrefab, _tabsPlaceholder);
                 textObj.GetComponent<TextMeshProUGUI>().text = shortInfoValue.Key + " : " + shortInfoValue.Value;
                 _infoTabs.Add(textObj);
             }
