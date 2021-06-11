@@ -17,9 +17,10 @@ public class AnimalData
 }
 
 [Serializable]
-public class ListOfAnimalData
+public struct ListOfAnimalData
 {
     public List<AnimalData> Animals;
+
 }
 
 [Serializable]

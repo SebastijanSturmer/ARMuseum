@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class DataManager : MonoBehaviour
 {
+
     [Header("JSON files")]
     [SerializeField] private AssetReference _questionsJSON;
     [SerializeField] private AssetReference _animalsJSON;
@@ -139,10 +141,16 @@ public class DataManager : MonoBehaviour
             return;
         }
 
-
         _animalsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
         {
-            ListOfAnimalData animals = JsonUtility.FromJson<ListOfAnimalData>(handle.Result.text);
+
+            var dictionaryOfAnimals = JsonConvert.DeserializeObject<Dictionary<string, List<AnimalData>>>(handle.Result.text);
+
+            ListOfAnimalData animals = new ListOfAnimalData();
+            animals.Animals = dictionaryOfAnimals["Animals"];
+
+            //ListOfAnimalData animals = JsonUtility.FromJson<ListOfAnimalData>(handle.Result.text);
+
             for (int i = 0; i < animals.Animals.Count; i++)
             {
                 animalsFromJSON.Add(animals.Animals[i]);
@@ -170,7 +178,14 @@ public class DataManager : MonoBehaviour
 
         _questionsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
         {
-            ListOfQuizQuestions questions = JsonUtility.FromJson<ListOfQuizQuestions>(handle.Result.text);
+
+            var dictionaryOfQuestions = JsonConvert.DeserializeObject<Dictionary<string, List<QuizQuestion>>>(handle.Result.text);
+
+            ListOfQuizQuestions questions = new ListOfQuizQuestions();
+            questions.Questions = dictionaryOfQuestions["Questions"];
+
+
+            //ListOfQuizQuestions questions = JsonUtility.FromJson<ListOfQuizQuestions>(handle.Result.text);
 
 
             int tryAttempts = 0;
