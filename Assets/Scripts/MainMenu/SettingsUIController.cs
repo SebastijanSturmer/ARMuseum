@@ -8,6 +8,7 @@ public class SettingsUIController : BaseGUIController
 {
     [Header("Internal references")]
     [SerializeField] private List<Button> _languageButtons;
+    [SerializeField] private Slider _volumeSlider;
     [Header("Events")]
     [SerializeField] private ScriptableEvent _settingsPanelClosed;
     [SerializeField] private ScriptableEvent _volumeSliderChanged;
@@ -16,6 +17,9 @@ public class SettingsUIController : BaseGUIController
     private void Start()
     {
         SetupLanguageButtons();
+
+        if (PlayerPrefs.HasKey("Volume"))
+            _volumeSlider.value = PlayerPrefs.GetFloat("Volume"); //Load volume value to slider
     }
 
     /// <summary>

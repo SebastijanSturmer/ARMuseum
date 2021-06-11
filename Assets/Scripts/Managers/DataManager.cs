@@ -13,14 +13,15 @@ public class DataManager : MonoBehaviour
     [SerializeField] private AssetReference _animalsJSON;
 
     [Header("Animals additional data")]
-    [SerializeField] private List<AnimalNameAndImage> _animalNamesAndImages;
-    [SerializeField] private List<AnimalNameAndMap> _animalNamesAndMaps;
+    [SerializeField] private List<AnimalNameAndImage> _animalImages;
+    [SerializeField] private List<AnimalNameAndMap> _animalMaps;
     [SerializeField] private List<AnimalNameAndPrefab> _availableAnimalPrefabs;
 
     [Header("Events")]
     [SerializeField] private ScriptableEvent _listOfQuestionsFromJSONCompleted;
     [SerializeField] private ScriptableEvent _listOfAnimalsFromJSONCompleted;
     [SerializeField] private ScriptableEvent _onImageAndMapOfAnimalCompleted;
+    [SerializeField] private ScriptableEvent _requestSound;
 
     public static DataManager Instance;
     private AsyncOperationHandle<Texture2D> _animalImageHandle;
@@ -40,15 +41,20 @@ public class DataManager : MonoBehaviour
     /// <returns></returns>
     public GameObject GetAnimalPrefabByName(string name)
     {
-        for (int i = 0; i < _animalNamesAndImages.Count; i++)
+        for (int i = 0; i < _animalImages.Count; i++)
         {
-            if (_animalNamesAndImages[i].AnimalName == name)
+            if (_animalImages[i].AnimalName == name)
             {
                 return _availableAnimalPrefabs[i].AnimalPrefab;
             }
         }
         Debug.LogError("DataManager : There was no animal image for " + name);
         return null;
+    }
+
+    public ScriptableEvent GetRequestSoundEvent()
+    {
+        return _requestSound;
     }
 
     /// <summary>
@@ -75,19 +81,19 @@ public class DataManager : MonoBehaviour
         AssetReference imageRef = null;
         AssetReference mapRef = null;
 
-        for (int i = 0; i < _animalNamesAndImages.Count; i++)
+        for (int i = 0; i < _animalImages.Count; i++)
         {
-            if (_animalNamesAndImages[i].AnimalName == name)
+            if (_animalImages[i].AnimalName == name)
             {
-                imageRef = _animalNamesAndImages[i].AnimalImage;
+                imageRef = _animalImages[i].AnimalImage;
                 break;
             }
         }
-        for (int i = 0; i < _animalNamesAndMaps.Count; i++)
+        for (int i = 0; i < _animalMaps.Count; i++)
         {
-            if (_animalNamesAndMaps[i].AnimalName == name)
+            if (_animalMaps[i].AnimalName == name)
             {
-                mapRef = _animalNamesAndMaps[i].AnimalMap;
+                mapRef = _animalMaps[i].AnimalMap;
                 break;
             }
         }
