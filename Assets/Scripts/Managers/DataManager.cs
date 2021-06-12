@@ -9,15 +9,12 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class DataManager : MonoBehaviour
 {
-
     [Header("JSON files")]
-    [SerializeField] private AssetReference _questionsJSON;
-    [SerializeField] private AssetReference _animalsJSON;
+    [SerializeField] private List<LanguageAndAssetReference> _listOfQuestionJSONFilesByLanguage;
+    [SerializeField] private List<LanguageAndAssetReference> _listOfAnimalsJSONFilesByLanguage;
 
     [Header("Animals additional data")]
-    [SerializeField] private List<AnimalNameAndImage> _animalImages;
-    [SerializeField] private List<AnimalNameAndMap> _animalMaps;
-    [SerializeField] private List<AnimalNameAndPrefab> _availableAnimalPrefabs;
+    [SerializeField] private List<AnimalIndentifierAndAdditionalData> _animalAdditionalData;
 
     [Header("Events")]
     [SerializeField] private ScriptableEvent _listOfQuestionsFromJSONCompleted;
@@ -26,10 +23,8 @@ public class DataManager : MonoBehaviour
     [SerializeField] private ScriptableEvent _requestSound;
 
     public static DataManager Instance;
-    private AsyncOperationHandle<Texture2D> _animalImageHandle;
-    private AsyncOperationHandle<Texture2D> _animalMapHandle;
-
-    public List<AnimalNameAndPrefab> AvailableAnimalPrefabs { get => _availableAnimalPrefabs; }
+    private AsyncOperationHandle<Texture2D> _lastAnimalImageHandle;
+    private AsyncOperationHandle<Texture2D> _lastAnimalMapHandle;
 
     private void Awake()
     {
@@ -37,20 +32,19 @@ public class DataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets animal image (texture 2d) for specified animal name
+    /// Gets animal prefab for specified animal identifier
     /// </summary>
-    /// <param name="name"></param>
     /// <returns></returns>
-    public GameObject GetAnimalPrefabByName(string name)
+    public GameObject GetAnimalPrefabByIdentifier(string identifier)
     {
-        for (int i = 0; i < _animalImages.Count; i++)
+        for (int i = 0; i < _animalAdditionalData.Count; i++)
         {
-            if (_animalImages[i].AnimalName == name)
+            if (_animalAdditionalData[i].AnimalIndentifier == identifier)
             {
-                return _availableAnimalPrefabs[i].AnimalPrefab;
+                return _animalAdditionalData[i].AnimalPrefab;
             }
         }
-        Debug.LogError("DataManager : There was no animal image for " + name);
+        Debug.LogError("DataManager : There was no animal prefab for " + identifier);
         return null;
     }
 
@@ -63,46 +57,41 @@ public class DataManager : MonoBehaviour
     /// Requests animal image and map for animal by name. It requires event listener with OnImageAndMapOfAnimalCompleted event as callback!
     /// </summary>
     /// <param name="name"></param>
-    public void RequestAnimalImageAndMapByName(string name)
+    public void RequestAnimalImageAndMapByIdentifier(string identifier)
     {
-        StartCoroutine(LoadAnimalImageAndMapCoroutine(name));
+        StartCoroutine(LoadAnimalImageAndMapCoroutine(identifier));
     }
 
     /// <summary>
     /// Loads animal image and map from addressables and then raises OnImageAndMapOfAnimalCompleted event with them
     /// </summary>
+    /// <param name="identifier">Animal indentifier (it should be animal name on english)</param>
     /// <returns></returns>
-    private IEnumerator LoadAnimalImageAndMapCoroutine(string name)
+    private IEnumerator LoadAnimalImageAndMapCoroutine(string identifier)
     {
-        //Release last used addresables for image and map
-        if (_animalMapHandle.IsValid())
-            Addressables.Release(_animalMapHandle);
-        if (_animalImageHandle.IsValid())
-            Addressables.Release(_animalImageHandle);
-
         AssetReference imageRef = null;
         AssetReference mapRef = null;
 
-        for (int i = 0; i < _animalImages.Count; i++)
+        for (int i = 0; i < _animalAdditionalData.Count; i++)
         {
-            if (_animalImages[i].AnimalName == name)
+            if (_animalAdditionalData[i].AnimalIndentifier == identifier)
             {
-                imageRef = _animalImages[i].AnimalImage;
+                imageRef = _animalAdditionalData[i].AnimalImage;
                 break;
             }
         }
-        for (int i = 0; i < _animalMaps.Count; i++)
+        for (int i = 0; i < _animalAdditionalData.Count; i++)
         {
-            if (_animalMaps[i].AnimalName == name)
+            if (_animalAdditionalData[i].AnimalIndentifier == identifier)
             {
-                mapRef = _animalMaps[i].AnimalMap;
+                mapRef = _animalAdditionalData[i].AnimalMap;
                 break;
             }
         }
 
         if (imageRef == null || mapRef == null)
         {
-            Debug.LogError("DataManager : Image reference or map reference for " + name + " is null!");
+            Debug.LogError("DataManager : Image reference or map reference for " + identifier + " is null!");
             yield break;
         }
 
@@ -116,16 +105,28 @@ public class DataManager : MonoBehaviour
         Sprite map = null;
 
         //Load image and map from Addresable reference
-        _animalImageHandle = Addressables.LoadAssetAsync<Texture2D>(imageRef);
-        yield return _animalImageHandle;
-        image = Sprite.Create(_animalImageHandle.Result, new Rect(0, 0, _animalImageHandle.Result.width, _animalImageHandle.Result.height), new Vector2(0.5f, 0.5f), 100.0f);
+        AsyncOperationHandle<Texture2D> newAnimalImageHandle = Addressables.LoadAssetAsync<Texture2D>(imageRef);
+        yield return newAnimalImageHandle;
 
-        _animalMapHandle = Addressables.LoadAssetAsync<Texture2D>(mapRef);
-        yield return _animalMapHandle;
-        map = Sprite.Create(_animalMapHandle.Result, new Rect(0, 0, _animalMapHandle.Result.width, _animalMapHandle.Result.height), new Vector2(0.5f, 0.5f), 100.0f);
+        image = Sprite.Create(newAnimalImageHandle.Result, new Rect(0, 0, newAnimalImageHandle.Result.width, newAnimalImageHandle.Result.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+        AsyncOperationHandle<Texture2D> newAnimalMapHandle = Addressables.LoadAssetAsync<Texture2D>(mapRef);
+        yield return newAnimalMapHandle;
+
+        map = Sprite.Create(newAnimalMapHandle.Result, new Rect(0, 0, newAnimalMapHandle.Result.width, newAnimalMapHandle.Result.height), new Vector2(0.5f, 0.5f), 100.0f);
 
         _onImageAndMapOfAnimalCompleted.RaiseEvent(new AnimalImageAndMapMessage(image, map));
-        
+
+        //Release last used addresables for image and map
+        if (_lastAnimalMapHandle.IsValid())
+            Addressables.Release(_lastAnimalMapHandle);
+        if (_lastAnimalImageHandle.IsValid())
+            Addressables.Release(_lastAnimalImageHandle);
+
+        //Store new ones so we can release them when we scan new animal
+        _lastAnimalImageHandle = newAnimalImageHandle;
+        _lastAnimalMapHandle = newAnimalMapHandle;
+
     }
 
     /// <summary>
@@ -133,15 +134,32 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void RequestAnimalsFromJSON()
     {
+        AssetReference animalsJSON = null;
+
+        for (int i = 0; i < _listOfAnimalsJSONFilesByLanguage.Count; i++)
+        {
+            if (_listOfAnimalsJSONFilesByLanguage[i].Language == LocalizationManager.Instance.Language)
+            {
+                animalsJSON = _listOfAnimalsJSONFilesByLanguage[i].AssetReference;
+            }
+        }
+
+        if (animalsJSON == null)
+        {
+            Debug.LogError("DataManager : Animals for " + LocalizationManager.Instance.Language + " was not found");
+            return;
+        }
+
+
         List<AnimalData> animalsFromJSON = new List<AnimalData>();
 
-        if (!_animalsJSON.RuntimeKeyIsValid())
+        if (!animalsJSON.RuntimeKeyIsValid())
         {
             Debug.LogError("DataManager : Json animals runtime key is not valid!");
             return;
         }
 
-        _animalsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
+        animalsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
         {
 
             var dictionaryOfAnimals = JsonConvert.DeserializeObject<Dictionary<string, List<AnimalData>>>(handle.Result.text);
@@ -161,22 +179,38 @@ public class DataManager : MonoBehaviour
             Addressables.Release(handle);
         };
 
-    }
+    }    
 
     /// <summary>
     /// Reads questions from json and raises event with list of questions
     /// </summary>
     public void RequestRandomQuestionsFromJSON(int numberOfQuestions)
     {
-        if (!_questionsJSON.RuntimeKeyIsValid())
+        AssetReference questionsJSON = null;
+
+        for (int i = 0; i < _listOfQuestionJSONFilesByLanguage.Count; i++)
         {
-            Debug.LogError("QuizManager : Json Questions runtime key is not valid!");
+            if (_listOfQuestionJSONFilesByLanguage[i].Language == LocalizationManager.Instance.Language)
+            {
+                questionsJSON = _listOfQuestionJSONFilesByLanguage[i].AssetReference;
+            }
+        }
+            
+        if (questionsJSON == null)
+        {
+            Debug.LogError("DataManager : Questions for " + LocalizationManager.Instance.Language + " was not found");
+            return;
+        }
+
+        if (!questionsJSON.RuntimeKeyIsValid())
+        {
+            Debug.LogError("DataManager : Json Questions runtime key is not valid!");
             return;
         }
 
         List<QuizQuestion> randomSelectedQuestions = new List<QuizQuestion>();
 
-        _questionsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
+        questionsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
         {
 
             var dictionaryOfQuestions = JsonConvert.DeserializeObject<Dictionary<string, List<QuizQuestion>>>(handle.Result.text);
@@ -230,31 +264,23 @@ public class DataManager : MonoBehaviour
 }
 
 /// <summary>
-/// Struct used for holding animal prefabs with names as identification
+/// Struct used for holding additional animal data with identifier
 /// </summary>
 [Serializable]
-public struct AnimalNameAndPrefab
+public struct AnimalIndentifierAndAdditionalData
 {
-    public string AnimalName;
+    public string AnimalIndentifier;
     public GameObject AnimalPrefab;
-}
-
-/// <summary>
-/// Struct used for holding animal image with names as identification
-/// </summary>
-[Serializable]
-public struct AnimalNameAndImage
-{
-    public string AnimalName;
     public AssetReference AnimalImage;
+    public AssetReference AnimalMap;
 }
 
 /// <summary>
-/// Struct used for holding animal map with names as identification
+/// Struct used for holding asset reference by language
 /// </summary>
 [Serializable]
-public struct AnimalNameAndMap
+public struct LanguageAndAssetReference
 {
-    public string AnimalName;
-    public AssetReference AnimalMap;
+    public Enums.Language Language;
+    public AssetReference AssetReference;
 }

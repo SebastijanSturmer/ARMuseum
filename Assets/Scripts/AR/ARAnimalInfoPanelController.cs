@@ -128,21 +128,9 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
     /// </summary>
     public void UpdateInfo(Sprite image, Sprite map)
     {
-        switch (LocalizationManager.Instance.Language)
-        {
-            case Enums.Language.English:
-                _animalName.text = _animalData.AnimalNameEN;
-                _arBasicAnimalInfoUIController.UpdateInfo(_animalData.BasicInfoEN);
-                _arShortAnimalInfoUIController.UpdateInfo(_animalData.ShortInfoEN);
-                
-                break;
-            case Enums.Language.Croatian:
-                _animalName.text = _animalData.AnimalNameHR;
-                _arBasicAnimalInfoUIController.UpdateInfo(_animalData.BasicInfoHR);
-                _arShortAnimalInfoUIController.UpdateInfo(_animalData.ShortInfoHR);
-                break;
-        }
-
+        _animalName.text = _animalData.AnimalName;
+        _arBasicAnimalInfoUIController.UpdateInfo(_animalData.BasicInfo);
+        _arShortAnimalInfoUIController.UpdateInfo(_animalData.ShortInfo);
         _animalImage.sprite = image;
         _arAnimalMapInfoUIController.UpdateInfo(map);
 

@@ -43,41 +43,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa29d8ceb1dd1e4bb8fa63f79e4ae85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _questionsJSON:
-    m_AssetGUID: c66749bfa7bd80a4889caf59ede1b0db
-    m_SubObjectName: 
-    m_SubObjectType: 
-  _animalsJSON:
-    m_AssetGUID: f73e19d37bfe322409cfbb5bcf67f992
-    m_SubObjectName: 
-    m_SubObjectType: 
-  _animalImages:
-  - AnimalName: Tyrannosaurus
+  _listOfQuestionJSONFilesByLanguage:
+  - Language: 0
+    AssetReference:
+      m_AssetGUID: c66749bfa7bd80a4889caf59ede1b0db
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - Language: 1
+    AssetReference:
+      m_AssetGUID: 27fcb5138b1a49941a677a757f7f340e
+      m_SubObjectName: 
+      m_SubObjectType: 
+  _listOfAnimalsJSONFilesByLanguage:
+  - Language: 0
+    AssetReference:
+      m_AssetGUID: f73e19d37bfe322409cfbb5bcf67f992
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - Language: 1
+    AssetReference:
+      m_AssetGUID: 87ef7b5f96d357545863313e2f19d5f7
+      m_SubObjectName: 
+      m_SubObjectType: 
+  _animalAdditionalData:
+  - AnimalIndentifier: Tyrannosaurus
+    AnimalPrefab: {fileID: 7154259895068908661, guid: 4bde001599e256e409c8472a070ceb35, type: 3}
     AnimalImage:
       m_AssetGUID: a6e088115dec26b49a0fcdc492897e1e
       m_SubObjectName: 
       m_SubObjectType: 
-  - AnimalName: Brachiosaurus
-    AnimalImage:
-      m_AssetGUID: b507cb117a23aea4ea38cd4f9dc3450f
-      m_SubObjectName: 
-      m_SubObjectType: 
-  _animalMaps:
-  - AnimalName: Tyrannosaurus
     AnimalMap:
       m_AssetGUID: afb1dedfb51900e45aa6648dee54752a
       m_SubObjectName: 
       m_SubObjectType: 
-  - AnimalName: Brachiosaurus
+  - AnimalIndentifier: Brachiosaurus
+    AnimalPrefab: {fileID: 7154259895068908661, guid: e046521ac673c7e49aff3cd0edc8a5c8, type: 3}
+    AnimalImage:
+      m_AssetGUID: b507cb117a23aea4ea38cd4f9dc3450f
+      m_SubObjectName: 
+      m_SubObjectType: 
     AnimalMap:
       m_AssetGUID: 8d8f42abcf352f74694b4bb4e1ec7485
       m_SubObjectName: 
       m_SubObjectType: 
-  _availableAnimalPrefabs:
-  - AnimalName: Tyrannosaurus
-    AnimalPrefab: {fileID: 7154259895068908661, guid: 4bde001599e256e409c8472a070ceb35, type: 3}
-  - AnimalName: Brachiosaurus
-    AnimalPrefab: {fileID: 7154259895068908661, guid: e046521ac673c7e49aff3cd0edc8a5c8, type: 3}
   _listOfQuestionsFromJSONCompleted: {fileID: 11400000, guid: 0164011d08961d74aae1f6b4e86c163e, type: 2}
   _listOfAnimalsFromJSONCompleted: {fileID: 11400000, guid: 6e16efeaa8239914ca28afd4fac8de37, type: 2}
   _onImageAndMapOfAnimalCompleted: {fileID: 11400000, guid: 766cecb80a59ab64996143d5b1161b3b, type: 2}

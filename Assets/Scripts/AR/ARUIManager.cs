@@ -46,8 +46,7 @@ public class ARUIManager : MonoBehaviour
     {
         _currentAnimal = ((AnimalDataMessage)animalDataMessage).AnimalData;
 
-        DataManager.Instance.RequestAnimalImageAndMapByName(_currentAnimal.AnimalNameEN);
-
+        DataManager.Instance.RequestAnimalImageAndMapByIdentifier(_currentAnimal.AnimalIdentifier);
     }
 
     public void OnAnimalImageAndMapRecieved(EventMessage message)

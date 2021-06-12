@@ -6,14 +6,11 @@ using UnityEngine;
 [Serializable]
 public class AnimalData
 {
-    public string AnimalNameEN;
-    public string AnimalNameHR;
-
-    public string BasicInfoEN;
-    public string BasicInfoHR;
-
-    public ShortInfoStruct[] ShortInfoEN;
-    public ShortInfoStruct[] ShortInfoHR;
+    public string AnimalIdentifier; //Its a string for convenience. It should be animal name on english. 
+                                     //It could be an int but then we should track IDs in json file and there could be human errors if we are manually inputing new animals.
+    public string AnimalName;
+    public string BasicInfo;
+    public ShortInfoStruct[] ShortInfo;
 }
 
 [Serializable]

@@ -49,21 +49,8 @@ public class QuizManager : MonoBehaviour
     {
         int selectedAnswerIndex = ((IntMessage)intMessage).IntValue;
 
-        switch(LocalizationManager.Instance.Language)
-        {
-            case Enums.Language.English:
-                if (_questions[_currentQuestionIndex].CorrectAnswerEN == _questions[_currentQuestionIndex].AnswersEN[selectedAnswerIndex])
-                {
-                    _numberOfCorrectAnswers++;
-                }
-                break;
-            case Enums.Language.Croatian:
-                if (_questions[_currentQuestionIndex].CorrectAnswerHR == _questions[_currentQuestionIndex].AnswersHR[selectedAnswerIndex])
-                {
-                    _numberOfCorrectAnswers++;
-                }
-                break;
-        }
+        if (_questions[_currentQuestionIndex].CorrectAnswer == _questions[_currentQuestionIndex].Answers[selectedAnswerIndex])
+            _numberOfCorrectAnswers++;
         
 
 
@@ -118,38 +105,4 @@ public class QuizManager : MonoBehaviour
         GetNewQuestion();
     }
 
-    /// <summary>
-    /// Debug function for creating JSON file
-    /// </summary>
-    void GenerateQuestion()
-    {
-        ListOfQuizQuestions listOfQuestions = new ListOfQuizQuestions();
-        listOfQuestions.Questions = new List<QuizQuestion>();
-        for (int i = 0; i < 15; i++)
-        {
-            QuizQuestion question = new QuizQuestion();
-            question.QuestionEN = "Lalal sajgihasjgasj  ahisgjan ashgiajjs?";
-            question.QuestionHR = "SAGsaignaks ioasikgmas asgoj?";
-
-            question.AnswersEN = new string[4];
-            question.AnswersEN[0] = "aaaaa";
-            question.AnswersEN[1] = "bbbbbbbb";
-            question.AnswersEN[2] = "cccccccccccccc";
-            question.AnswersEN[3] = "ddddd";
-
-            question.AnswersHR = new string[4];
-            question.AnswersHR[0] = "aaaaa";
-            question.AnswersHR[1] = "bbbbbbbb";
-            question.AnswersHR[2] = "cccccccccccccc";
-            question.AnswersHR[3] = "ddddd";
-
-            question.CorrectAnswerEN = "cccccccccccccc";
-            question.CorrectAnswerHR = "cccccccccccccc";
-
-            listOfQuestions.Questions.Add(question);
-        }
-
-        string json = JsonUtility.ToJson(listOfQuestions);
-        Debug.Log(json);
-    }
 }

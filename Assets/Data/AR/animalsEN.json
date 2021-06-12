@@ -1,0 +1,60 @@
+﻿{
+    "Animals": [
+        {
+            "AnimalIdentifier": "Tyrannosaurus",
+            "AnimalName": "Tyrannosaurus",
+            "BasicInfo": "Tyrannosaurus are prehistoric carnivorous dinosaurs. They originated in the Cretaceous era and existed until the extinction of the dinosaurs 65,000,000 years ago.",
+            "ShortInfo": [
+                {
+                    "Key": "Climate",
+                    "Value": "Humid, semi-tropical"
+                },
+                {
+                    "Key": "Food",
+                    "Value": "Meat"
+                },
+                {
+                    "Key": "Lenght",
+                    "Value": "12.3–12.8 meters (40–42 ft)"
+                },
+                {
+                    "Key": "Height",
+                    "Value": "3.66 meters (12 ft)"
+                },
+                {
+                    "Key": "Weight",
+                    "Value": "13 tons"
+                }
+
+            ]
+        },
+        {
+            "AnimalIdentifier": "Brachiosaurus",
+            "AnimalName": "Brachiosaurus",
+            "BasicInfo": "Brachiosaurus is a genus of sauropod dinosaur that lived in North America during the Late Jurassic, about 154–153 million years ago.",
+            "ShortInfo": [
+                {
+                    "Key": "Climate",
+                    "Value": "Semi Arid"
+                },
+                {
+                    "Key": "Food",
+                    "Value": "Foliage"
+                },
+                {
+                    "Key": "Lenght",
+                    "Value": "20–21 meters (66–69 ft)"
+                },
+                {
+                    "Key": "Height",
+                    "Value": "12–13 meters (39–43 ft)"
+                },
+                {
+                    "Key": "Weight",
+                    "Value": "28-58 tons"
+                }
+
+            ]
+        }
+    ]
+}

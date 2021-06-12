@@ -22,9 +22,9 @@ public class ARManager : MonoBehaviour
     private ARTrackedImageManager _trackedImageManager;
     private ARSession _arSession;
     private List<AnimalTrackedImageAndGameObject> _spawnedAnimals = new List<AnimalTrackedImageAndGameObject>();
-    private ARTrackedImage _lastTrackedImage;
 
     private bool _loadingAnimalsCompleted;
+
 
 
     /// <summary>
@@ -35,6 +35,7 @@ public class ARManager : MonoBehaviour
         StartCoroutine(StartARCoroutine());
 
     }
+
     /// <summary>
     /// Event function that will stop AR and reset AR Session
     /// </summary>
@@ -47,7 +48,6 @@ public class ARManager : MonoBehaviour
         }
 
         _spawnedAnimals.Clear();
-        _lastTrackedImage = null;
         _arSession.Reset();
 
         _trackedImageManager.trackedImagesChanged -= OnImageRecognized;
@@ -62,6 +62,9 @@ public class ARManager : MonoBehaviour
     public void OnAnimalClicked(EventMessage animalDataMessage)
     {
         AnimalData animalData = ((AnimalDataMessage)animalDataMessage).AnimalData;
+
+        if (animalData == null)
+            return;
 
         _arAnimalFocused.RaiseEvent(new AnimalDataMessage(animalData));
     }
@@ -88,7 +91,7 @@ public class ARManager : MonoBehaviour
         }
         foreach (ARTrackedImage trackedImage in args.updated)
         {
-            UpdateObject(trackedImage);
+            UpdateObject(trackedImage, args.updated.Count);
         }
         foreach (ARTrackedImage trackedImage in args.removed)
         {
@@ -125,17 +128,9 @@ public class ARManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SpawnObjectOnImage(ARTrackedImage trackedImage)
     {
-        GameObject prefabToSpawn = null;
-        //Finding prefab from list
-        for (int i = 0; i < DataManager.Instance.AvailableAnimalPrefabs.Count; i++)
-        {
-            if (DataManager.Instance.AvailableAnimalPrefabs[i].AnimalName == trackedImage.referenceImage.name)
-            {
-                prefabToSpawn = DataManager.Instance.AvailableAnimalPrefabs[i].AnimalPrefab;
-                break;
-            }
-        }
-        //If we havent found animal in list then break
+        GameObject prefabToSpawn = DataManager.Instance.GetAnimalPrefabByIdentifier(trackedImage.referenceImage.name);
+
+        //If we havent found animal in data manager then break
         if (prefabToSpawn == null)
             yield break;
 
@@ -145,7 +140,7 @@ public class ARManager : MonoBehaviour
         spawnedObject.name = trackedImage.referenceImage.name;
 
         //Adding AnimalController and adding animal data to that controller
-        spawnedObject.GetComponent<ARAnimalController>().SetAnimalData(FindAnimalDataByName(trackedImage.referenceImage.name));
+        spawnedObject.GetComponent<ARAnimalController>().SetAnimalData(FindAnimalDataByIdentifier(trackedImage.referenceImage.name));
 
 
         _spawnedAnimals.Add(new AnimalTrackedImageAndGameObject(trackedImage, spawnedObject));
@@ -172,16 +167,9 @@ public class ARManager : MonoBehaviour
     /// Function that updates object position and rotation aswell as call AnimalDetectedEvent if we started to track new animal.
     /// </summary>
     /// <param name="trackedImage"></param>
-    private void UpdateObject(ARTrackedImage trackedImage)
+    private void UpdateObject(ARTrackedImage trackedImage, int howManyObjectsWillGetUpdated)
     {
-        //If this image is currently being tracked and it is different from last tracked image then find data and send to UI
-        if (trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Tracking && _lastTrackedImage != trackedImage)
-        { 
-            FindAnimalDataAndCallAnimalFocusedEvent(trackedImage.referenceImage.name);
-            _lastTrackedImage = trackedImage;
-        }
-
-
+        
         for (int i = 0; i < _spawnedAnimals.Count; i++)
         {
             if (_spawnedAnimals[i].Image == trackedImage)
@@ -222,7 +210,7 @@ public class ARManager : MonoBehaviour
     /// <param name="name">Animal name</param>
     private void FindAnimalDataAndCallAnimalFocusedEvent(string name)
     {
-        AnimalData animalData = FindAnimalDataByName(name);
+        AnimalData animalData = FindAnimalDataByIdentifier(name);
 
         if (animalData != null)
         {
@@ -232,60 +220,17 @@ public class ARManager : MonoBehaviour
         }
     }
 
-    private AnimalData FindAnimalDataByName(string name)
+    private AnimalData FindAnimalDataByIdentifier(string identifier)
     {
         //Find animal in data
         for (int i = 0; i < _animals.Count; i++)
         {
-            if (_animals[i].AnimalNameEN == name) //We are searching by english name because pictures will be named on english
+            if (_animals[i].AnimalIdentifier == identifier)
             {
                 return(_animals[i]);
             }
         }
         return null;
-    }
-
-
-    /// <summary>
-    /// Debug function for creating JSON file
-    /// </summary>
-    void GenerateAnimals()
-    {
-        ListOfAnimalData listOfAnimals = new ListOfAnimalData();
-        listOfAnimals.Animals = new List<AnimalData>();
-
-        for (int i = 0; i < 2; i++)
-        {
-            AnimalData animal = new AnimalData();
-
-            animal.AnimalNameEN = "Penguin";
-            animal.AnimalNameHR = "Pingvin";
-
-            animal.BasicInfoEN = "Penguins live on Antartica. They like cold!";
-            animal.BasicInfoHR = "Penguins live on Antartica. They like cold!";
-
-            animal.ShortInfoEN = new ShortInfoStruct[3];
-            animal.ShortInfoHR = new ShortInfoStruct[3];
-
-            animal.ShortInfoEN[0].Key = "Climate";
-            animal.ShortInfoEN[0].Value = "Cold";
-            animal.ShortInfoEN[1].Key = "Food";
-            animal.ShortInfoEN[1].Value = "Meat";
-            animal.ShortInfoEN[2].Key = "Height";
-            animal.ShortInfoEN[2].Value = "1.5m";
-
-            animal.ShortInfoHR[0].Key = "Climate";
-            animal.ShortInfoHR[0].Value = "Cold";
-            animal.ShortInfoHR[1].Key = "Food";
-            animal.ShortInfoHR[1].Value = "Meat";
-            animal.ShortInfoHR[2].Key = "Height";
-            animal.ShortInfoHR[2].Value = "1.5m";
-
-            listOfAnimals.Animals.Add(animal);
-        }
-
-        string json = JsonUtility.ToJson(listOfAnimals);
-        Debug.Log(json);
     }
 }
 
