@@ -25,4 +25,5 @@ public struct ShortInfoStruct
 {
     public string Key;
     public string Value;
+
 }

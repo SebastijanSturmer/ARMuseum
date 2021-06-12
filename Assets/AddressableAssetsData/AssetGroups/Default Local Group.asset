@@ -17,14 +17,14 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: b41f6f3dc0d5b8746aa897feb402cecc
   m_SerializeEntries:
-  - m_GUID: c66749bfa7bd80a4889caf59ede1b0db
-    m_Address: Quiz/QuestionsEN
+  - m_GUID: f73e19d37bfe322409cfbb5bcf67f992
+    m_Address: AR/AnimalsEnglish
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: f73e19d37bfe322409cfbb5bcf67f992
-    m_Address: AR/AnimalsEN
+  - m_GUID: c66749bfa7bd80a4889caf59ede1b0db
+    m_Address: Quiz/QuestionsEnglish
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
@@ -54,13 +54,13 @@ MonoBehaviour:
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
   - m_GUID: 87ef7b5f96d357545863313e2f19d5f7
-    m_Address: AR/AnimalsHR
+    m_Address: AR/AnimalsCroatian
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
   - m_GUID: 27fcb5138b1a49941a677a757f7f340e
-    m_Address: Quiz/QuestionsHR
+    m_Address: Quiz/QuestionsCroatian
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
