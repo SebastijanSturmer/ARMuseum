@@ -162,10 +162,10 @@ public class DataManager : MonoBehaviour
         animalsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
         {
 
-            var dictionaryOfAnimals = JsonConvert.DeserializeObject<Dictionary<string, List<AnimalData>>>(handle.Result.text);
-
+            var dictionaryOfObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(handle.Result.text);
+            
             ListOfAnimalData animals = new ListOfAnimalData();
-            animals.Animals = dictionaryOfAnimals["Animals"];
+            animals.Animals = JsonConvert.DeserializeObject<List<AnimalData>>(dictionaryOfObject["Animals"].ToString()); ;
 
             //ListOfAnimalData animals = JsonUtility.FromJson<ListOfAnimalData>(handle.Result.text);
 
@@ -213,14 +213,14 @@ public class DataManager : MonoBehaviour
         questionsJSON.LoadAssetAsync<TextAsset>().Completed += handle =>
         {
 
-            var dictionaryOfQuestions = JsonConvert.DeserializeObject<Dictionary<string, List<QuizQuestion>>>(handle.Result.text);
-
+            var dictionaryOfObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(handle.Result.text);
+            
             ListOfQuizQuestions questions = new ListOfQuizQuestions();
-            questions.Questions = dictionaryOfQuestions["Questions"];
+            questions.Questions = JsonConvert.DeserializeObject<List<QuizQuestion>>(dictionaryOfObject["Questions"].ToString());
 
 
             //ListOfQuizQuestions questions = JsonUtility.FromJson<ListOfQuizQuestions>(handle.Result.text);
-
+            
 
             int tryAttempts = 0;
             while (true)
