@@ -10,6 +10,7 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
     
     [Header("Internal references")]
     [SerializeField] private TextMeshProUGUI _animalName;
+    [SerializeField] private GameObject _animalImagePanel;
     [SerializeField] private Image _animalImage;
     [SerializeField] private Button _openBasicInfoButton;
     [SerializeField] private Button _openShortInfoButton;
@@ -43,7 +44,7 @@ public class ARAnimalInfoPanelController : AnimatedBaseGUIController
         }
 
         _closePanelButton.gameObject.SetActive(shouldDisplay);
-        _animalImage.gameObject.SetActive(shouldDisplay);
+        _animalImagePanel.gameObject.SetActive(shouldDisplay);
     }
 
     /// <summary>

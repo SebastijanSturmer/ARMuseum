@@ -9,7 +9,7 @@ public class QuestionPanelController : BaseGUIController
 {
     [Header("Internal References")]
     [SerializeField] private TextMeshProUGUI _questionText;
-    [SerializeField] private Button[] _answerButtons;
+    [SerializeField] private ButtonWithTextController[] _answerButtons;
 
     [Header("Events")]
     [SerializeField] private ScriptableEvent _answerSelected;
@@ -40,13 +40,13 @@ public class QuestionPanelController : BaseGUIController
         {
             if (question.Answers.Length < i+1)
             {
-                _answerButtons[i].gameObject.SetActive(false);
+                _answerButtons[i].TogglePanel(false);
             }
             else
             {
-                _answerButtons[i].gameObject.SetActive(true);
+                _answerButtons[i].TogglePanel(true);
 
-                _answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = question.Answers[i];
+                _answerButtons[i].SetText(question.Answers[i]);
                 
             }
         }
@@ -67,7 +67,7 @@ public class QuestionPanelController : BaseGUIController
         for (int i = 0; i < _answerButtons.Length; i++)
         {
             int index = i;
-            _answerButtons[i].onClick.AddListener(delegate { OnAnswerSelected(index); });
+            _answerButtons[i].SetOnClickToButton(delegate { OnAnswerSelected(index); });
         }
     }
 }

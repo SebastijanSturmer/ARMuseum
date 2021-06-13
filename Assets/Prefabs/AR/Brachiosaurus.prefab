@@ -46,12 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animalData:
-    AnimalNameEN: 
-    AnimalNameHR: 
-    BasicInfoEN: 
-    BasicInfoHR: 
-    ShortInfoEN: []
-    ShortInfoHR: []
+    AnimalIdentifier: 
+    AnimalName: 
+    BasicInfo: 
+    ShortInfo: []
 --- !u!65 &1949118201109084047
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -120,6 +118,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Brachiosaurus
       objectReference: {fileID: 0}
+    - target: {fileID: 4340900191049645861, guid: e1ebcf010bad5d241877a572d2e793a7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 964afeaa6dd3dc34abe8fd8ffc2a0a6d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1ebcf010bad5d241877a572d2e793a7, type: 3}
 --- !u!4 &7409971425331444593 stripped
