@@ -24,6 +24,7 @@ public class QuizManager : MonoBehaviour
 
     private bool _loadingQuestionsCompleted;
     private Coroutine _startQuizCoroutine;
+    private Coroutine _onAnswerSelectedCoroutine;
 
 
     /// <summary>
@@ -54,7 +55,10 @@ public class QuizManager : MonoBehaviour
     public void OnAnswerSelected(EventMessage intMessage)
     {
         int selectedAnswerIndex = ((IntMessage)intMessage).IntValue;
-        StartCoroutine(OnAnswerSelectedCoroutine(selectedAnswerIndex));
+        if (_onAnswerSelectedCoroutine != null) //If we selected answer for this question then wait for new question (instead user could keep pressing answers before new question comes)
+            return;
+
+        _onAnswerSelectedCoroutine = StartCoroutine(OnAnswerSelectedCoroutine(selectedAnswerIndex));
     }
 
     private IEnumerator OnAnswerSelectedCoroutine(int selectedAnswerIndex)
@@ -78,6 +82,8 @@ public class QuizManager : MonoBehaviour
         {
             GetNewQuestion();
         }
+
+        _onAnswerSelectedCoroutine = null;
     }
 
     /// <summary>
