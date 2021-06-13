@@ -21,6 +21,7 @@ public class QuizManager : MonoBehaviour
     private int _numberOfCorrectAnswers = 0;
 
     private bool _loadingQuestionsCompleted;
+    private Coroutine _startQuizCoroutine;
 
 
     /// <summary>
@@ -28,7 +29,10 @@ public class QuizManager : MonoBehaviour
     /// </summary>
     public void OnNewQuizRequest()
     {
-        StartCoroutine(StartQuiz());
+        if (_startQuizCoroutine != null)
+            StopCoroutine(_startQuizCoroutine);
+
+        _startQuizCoroutine = StartCoroutine(StartQuiz());
     }
 
     /// <summary>

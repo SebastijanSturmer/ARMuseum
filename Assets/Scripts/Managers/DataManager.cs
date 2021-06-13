@@ -221,6 +221,13 @@ public class DataManager : MonoBehaviour
 
             //ListOfQuizQuestions questions = JsonUtility.FromJson<ListOfQuizQuestions>(handle.Result.text);
             
+            //If we requested more questions then we have in json file then dont try to load them and log error!
+            if (numberOfQuestions > questions.Questions.Count)
+            {
+                Debug.LogError("There are not enough questions in json file " + questionsJSON.Asset.name);
+                Addressables.Release(handle);
+                return;
+            }
 
             int tryAttempts = 0;
             while (true)
