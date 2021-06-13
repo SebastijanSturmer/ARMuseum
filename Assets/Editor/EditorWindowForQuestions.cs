@@ -7,20 +7,19 @@ using Newtonsoft.Json;
 
 public class EditorWindowForQuestions : EditorWindow
 {
-    private List<QuizQuestion> _questions;
+    private int _maxNumberOfQuestions = 4;
 
+    private List<QuizQuestion> _questions;
     private string _pathToQuestionsJsons = "";
     private bool _needsRefresh = true;
-
     private TextAsset _jsonFile;
     private Enums.Language _currentLanguage = Enums.Language.English;
-
     private Vector2 _scrollPosition = new Vector2();
 
     [MenuItem("Custom/Questions")]
     public static void ShowWindow()
     {
-        GetWindow<EditorWindowForQuestions>("Questions");
+        CreateWindow<EditorWindowForQuestions>("Questions");
 
     }
 
@@ -97,10 +96,14 @@ public class EditorWindowForQuestions : EditorWindow
                 }
 
                 //New answer
-                if (GUILayout.Button("+", GUILayout.Width(20), GUILayout.Height(20)))
+                if (_questions[i].Answers.Length < _maxNumberOfQuestions)
                 {
-                    string[] newAnswers = new string[_questions[i].Answers.Length + 1];
-                    _questions[i].Answers.CopyTo(newAnswers,0);
+                    if (GUILayout.Button("+", GUILayout.Width(20), GUILayout.Height(20)))
+                    {
+                        string[] newAnswers = new string[_questions[i].Answers.Length + 1];
+                        _questions[i].Answers.CopyTo(newAnswers, 0);
+                        _questions[i].Answers = newAnswers;
+                    }
                 }
 
                 //Correct answer

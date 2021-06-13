@@ -37,6 +37,21 @@ public class IntMessage : EventMessage
 }
 
 /// <summary>
+/// Event message that holds an integer value and bool value.
+/// </summary>
+public class IntAndBoolMessage : EventMessage
+{
+    public int IntValue;
+    public bool BoolValue;
+
+    public IntAndBoolMessage(int intValue, bool boolValue)
+    {
+        IntValue = intValue;
+        BoolValue = boolValue;
+    }
+}
+
+/// <summary>
 /// Event message that holds a float value.
 /// </summary>
 public class FloatMessage : EventMessage

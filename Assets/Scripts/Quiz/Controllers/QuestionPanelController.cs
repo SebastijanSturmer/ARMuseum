@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 public class QuestionPanelController : BaseGUIController
 {
+    [Header("Settings")]
+    [SerializeField] private Color _defaultButtonColor = Color.white;
+    [SerializeField] private Color _wrongAnswerColor = Color.red;
+    [SerializeField] private Color _correctAnswerColor = Color.green;
+
     [Header("Internal References")]
     [SerializeField] private TextMeshProUGUI _questionText;
     [SerializeField] private ButtonWithTextController[] _answerButtons;
@@ -20,6 +25,29 @@ public class QuestionPanelController : BaseGUIController
         AssignOnClickFunctionsToAnswerButtons();
     }
 
+    /// <summary>
+    /// Resets answer button colors to default color
+    /// </summary>
+    public void ResetAnswerColors()
+    {
+        for (int i = 0; i < _answerButtons.Length; i++)
+        {
+            _answerButtons[i].SetButtonColor(_defaultButtonColor);
+        }
+    }
+
+    /// <summary>
+    /// Sets answer button color to correct/wrong answer color
+    /// </summary>
+    /// <param name="answerIndex"></param>
+    /// <param name="wasAnswerCorrect"></param>
+    public void UpdateAnswerColor(int answerIndex, bool wasAnswerCorrect)
+    {
+        if (wasAnswerCorrect)
+            _answerButtons[answerIndex].SetButtonColor(_correctAnswerColor);
+        else
+            _answerButtons[answerIndex].SetButtonColor(_wrongAnswerColor);
+    }
 
     public void AssignNewQuestion(QuizQuestion question)
     {

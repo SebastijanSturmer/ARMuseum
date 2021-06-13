@@ -10,10 +10,12 @@ public class QuizManager : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private int _numberOfQuestions;
+    [SerializeField] private float _newQuestionDelay;
 
     [Header("Events")]
     [SerializeField] private ScriptableEvent _quizStarted;
     [SerializeField] private ScriptableEvent _quizFinished;
+    [SerializeField] private ScriptableEvent _didUserAnswerCorrectly;
     [SerializeField] private ScriptableEvent _newQuizQuestion;
 
     private List<QuizQuestion> _questions;
@@ -52,11 +54,21 @@ public class QuizManager : MonoBehaviour
     public void OnAnswerSelected(EventMessage intMessage)
     {
         int selectedAnswerIndex = ((IntMessage)intMessage).IntValue;
+        StartCoroutine(OnAnswerSelectedCoroutine(selectedAnswerIndex));
+    }
 
+    private IEnumerator OnAnswerSelectedCoroutine(int selectedAnswerIndex)
+    {
+        bool isAnswerCorrect = false;
         if (_questions[_currentQuestionIndex].CorrectAnswer == _questions[_currentQuestionIndex].Answers[selectedAnswerIndex])
+        {
             _numberOfCorrectAnswers++;
-        
+            isAnswerCorrect = true;
+        }
 
+        _didUserAnswerCorrectly.RaiseEvent(new IntAndBoolMessage(selectedAnswerIndex,isAnswerCorrect));
+
+        yield return new WaitForSeconds(_newQuestionDelay);
 
         if (_currentQuestionIndex + 1 > _numberOfQuestions - 1) //If next question is bigger then number of questions (since its index we need to reduce it by 1) then call quiz finished
         {
@@ -66,7 +78,6 @@ public class QuizManager : MonoBehaviour
         {
             GetNewQuestion();
         }
-        
     }
 
     /// <summary>

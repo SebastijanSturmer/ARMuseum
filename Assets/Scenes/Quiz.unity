@@ -1392,6 +1392,25 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - _scriptableEvent: {fileID: 11400000, guid: 4e9b43c0369816846acd32a011c7b7fd, type: 2}
+    _unityEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    _messageUnityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1111097674}
+          m_TargetAssemblyTypeName: QuizUIManager, Assembly-CSharp
+          m_MethodName: OnDidUserAnswerCorrectly
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1146783459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2570,8 +2589,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _numberOfQuestions: 10
+  _newQuestionDelay: 1
   _quizStarted: {fileID: 11400000, guid: bd10a7b2ce3340e4582e065391226479, type: 2}
   _quizFinished: {fileID: 11400000, guid: c0b12c0740e2c26468fd67027a742e6a, type: 2}
+  _didUserAnswerCorrectly: {fileID: 11400000, guid: 4e9b43c0369816846acd32a011c7b7fd, type: 2}
   _newQuizQuestion: {fileID: 11400000, guid: f1befd823f3138b469924c0857f92153, type: 2}
 --- !u!1 &1948731047
 GameObject:

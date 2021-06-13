@@ -25,4 +25,9 @@ public class ButtonWithTextController : MonoBehaviour
     {
         _button.onClick.AddListener(method);
     }
+
+    public void SetButtonColor(Color newColor)
+    {
+        _button.GetComponent<Image>().color = newColor;
+    }
 }

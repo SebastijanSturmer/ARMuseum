@@ -1,10 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class QuizUIManager : MonoBehaviour
 {
-
     [Header("Internal References")]
     [SerializeField] private Transform _questionPanelParent;
     [SerializeField] private QuizStartPanelController _quizStartPanelController;
@@ -40,6 +40,15 @@ public class QuizUIManager : MonoBehaviour
         _questionPanelController.TogglePanel(true);
     }
 
+    public void OnDidUserAnswerCorrectly(EventMessage intAndBoolMessage)
+    {
+        IntAndBoolMessage intAndBoolValue = (IntAndBoolMessage)intAndBoolMessage;
+        bool didUserAnswerCorrectly = intAndBoolValue.BoolValue;
+        int answerButtonIndex = intAndBoolValue.IntValue;
+
+        _questionPanelController.UpdateAnswerColor(answerButtonIndex, didUserAnswerCorrectly);
+    }
+
     /// <summary>
     /// Event function that is called when Quiz manager selects new question. It will assign new question to question panel.
     /// </summary>
@@ -48,6 +57,7 @@ public class QuizUIManager : MonoBehaviour
     {
         QuizQuestion question = ((QuizQuestionMessage)quizQuestionMessage).Question;
 
+        _questionPanelController.ResetAnswerColors();
         _questionPanelController.AssignNewQuestion(question);
     }
 
@@ -85,4 +95,5 @@ public class QuizUIManager : MonoBehaviour
     {
         _loadMainMenu.RaiseEvent();
     }
+
 }

@@ -2908,6 +2908,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainPanel: {fileID: 6465592128306419594}
+  _defaultButtonColor: {r: 1, g: 1, b: 1, a: 1}
+  _wrongAnswerColor: {r: 1, g: 0.5316083, b: 0.41960788, a: 1}
+  _correctAnswerColor: {r: 0.31011927, g: 0.9528302, b: 0.42737058, a: 1}
   _questionText: {fileID: 6465592128518717124}
   _answerButtons:
   - {fileID: 442450905696926695}
